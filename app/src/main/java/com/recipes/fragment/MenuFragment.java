@@ -9,19 +9,16 @@ import android.widget.ListView;
 import com.recipes.R;
 
 
-import com.recipes.operations.FragmentMenuAdapter;
-import com.recipes.operations.Recipe;
-import com.recipes.operations.RecipeData;
+import com.recipes.adapters.FragmentMenuAdapter;
+import com.recipes.models.RecipeData;
 
 public class MenuFragment extends ListFragment {
     private MenuInterface listener;
-    private RecipeData recipeData = new RecipeData();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentMenuAdapter adapter = new FragmentMenuAdapter(getActivity(),R.layout.menu_row,
-                recipeData);
+        FragmentMenuAdapter adapter = new FragmentMenuAdapter(getActivity(),R.layout.view_recipe_item);
         setListAdapter(adapter);
     }
 
@@ -49,12 +46,12 @@ public class MenuFragment extends ListFragment {
     }
 
     public interface MenuInterface {
-        public void onMenuSelected(Recipe recipe);
+        public void onMenuSelected(RecipeData recipeData);
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        listener.onMenuSelected(recipeData.getRecipeData(position));
+        //listener.onMenuSelected(recipeList.getRecipeData(position));
         getListView().setItemChecked(position, true);
     }
 

@@ -1,23 +1,25 @@
-package com.recipes.operations;
+package com.recipes.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.List;
+import com.recipes.models.RecipeData;
+import com.recipes.widgets.RecipeItemView;
+import com.recipes.widgets.RecipeItemView_;
 
-import com.recipes.operations.RecipeItemView_;
+import java.util.List;
 
 
 public class FragmentMenuAdapter extends BaseAdapter {
     Context context;
     int layoutResourceId;
-    List<Recipe> data;
-    public FragmentMenuAdapter(Context context, int layoutResourceId, RecipeData data) {
+    List<RecipeData> data;
+    public FragmentMenuAdapter(Context context, int layoutResourceId) {
         this.layoutResourceId = layoutResourceId;
         this.context = context;
-        this.data = data.getRecipes();
+//        this.data = data.getRecipeList();
     }
 
     @Override
@@ -26,7 +28,7 @@ public class FragmentMenuAdapter extends BaseAdapter {
     }
 
     @Override
-    public Recipe getItem(int position) {
+    public RecipeData getItem(int position) {
         return data.get(position);
     }
 

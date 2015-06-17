@@ -6,20 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.recipes.R;
-import com.recipes.activity.MainFragmentActivity;
+import com.recipes.views.MainFragmentActivity;
+
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class RecipeDescriptionFragment extends Fragment {
 
-    @InjectView(R.id.descriptionText)
+    //@InjectView(R.id.descriptionText)
     TextView descriptionText;
 
-    @InjectView(R.id.titleText)
+    //@InjectView(R.id.titleText)
     TextView titleText;
 
-    @InjectView(R.id.subTitleText)
+    //@InjectView(R.id.subTitleText)
     TextView subTitleText;
 
 

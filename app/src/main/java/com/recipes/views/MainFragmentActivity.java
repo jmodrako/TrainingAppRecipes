@@ -1,4 +1,4 @@
-package com.recipes.activity;
+package com.recipes.views;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.recipes.R;
 import com.recipes.fragment.MenuFragment;
 import com.recipes.fragment.RecipeDescriptionFragment;
-import com.recipes.operations.Recipe;
+import com.recipes.models.RecipeData;
 
 public class MainFragmentActivity extends FragmentActivity implements MenuFragment.MenuInterface {
 
@@ -22,7 +22,7 @@ public class MainFragmentActivity extends FragmentActivity implements MenuFragme
         if (isItSmallDevice()) {
             createMenuLayout();
         }else{
-            createDescriptionFragment(R.id.fragment_containerLarge, new Recipe());
+            createDescriptionFragment(R.id.fragment_containerLarge, new RecipeData());
         }
 
     }
@@ -34,32 +34,32 @@ public class MainFragmentActivity extends FragmentActivity implements MenuFragme
     }
 
     @Override
-    public void onMenuSelected(Recipe recipe) {
+    public void onMenuSelected(RecipeData recipeData) {
         if (isItSmallDevice()){
-            createDescriptionFragment(R.id.fragment_container,recipe);
+            createDescriptionFragment(R.id.fragment_container, recipeData);
         }else {
-            createDescriptionFragment(R.id.fragment_containerLarge,recipe);
+            createDescriptionFragment(R.id.fragment_containerLarge, recipeData);
         }
     }
 
     private boolean isItSmallDevice(){
         return findViewById(R.id.fragment_container) != null;
     }
-    private void createDescriptionFragment(int id, Recipe recipe){
+    private void createDescriptionFragment(int id, RecipeData recipeData){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         RecipeDescriptionFragment optionsFragment = new RecipeDescriptionFragment();
-        optionsFragment.setArguments(getSendingArguments(recipe));
+        optionsFragment.setArguments(getSendingArguments(recipeData));
         transaction.replace(id, optionsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
-    private Bundle getSendingArguments(Recipe recipe){
+    private Bundle getSendingArguments(RecipeData recipeData){
         Bundle result = new Bundle();
-        result.putString(RECIPE_DESCRIPTION, recipe.getRecipeDescription());
-        result.putString(RECIPE_TITLE, recipe.getTitle());
-        result.putString(RECIPE_SUBTITLE, recipe.getSubTitle());
+        result.putString(RECIPE_DESCRIPTION, recipeData.getRecipeDescription());
+        //result.putString(RECIPE_TITLE, recipeData.getTitle());
+        //.putString(RECIPE_SUBTITLE, recipeData.getSubtitle());
         return result;
     }
 }

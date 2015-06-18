@@ -1,7 +1,6 @@
 package com.recipes.widgets;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -47,7 +46,6 @@ public class RecipeItemView extends RelativeLayout {
         Typeface typefaceTitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
         recipeItemTvTitle.setText(recipeData.getRecipeTitle());
         recipeItemTvTitle.setTypeface(typefaceTitle);
-        recipeItemTvTitle.setTextColor(Color.BLACK);
 
         Typeface typefaceSubtitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Light.ttf");
         recipeItemTvSubtitle.setText(recipeData.getRecipeSubtitle());

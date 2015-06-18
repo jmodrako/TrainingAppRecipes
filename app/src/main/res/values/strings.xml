@@ -6,4 +6,6 @@
     <string name="title_activity_main_fragment">MainFragmentActivity</string>
     <string name="default_text">Empty</string>
     <string name="action_refresh">Refresh</string>
+    <string name="action_share">Share</string>
+    <string name="settings_clicked_message">Settings clicked!</string>
 </resources>

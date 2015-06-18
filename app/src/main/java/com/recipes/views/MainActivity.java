@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.recipes.R;
 import com.recipes.adapters.RecipesListAdapter;
@@ -21,6 +21,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ItemClick;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.StringRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +54,12 @@ public class MainActivity extends Activity {
     @ViewById
     ProgressBar activityMainProgressBar;
 
+    @StringRes
+    String settingClickedMessage;
+
     @AfterViews
     void init() {
-        if(getActionBar() != null){
+        if (getActionBar() != null) {
             getActionBar().setDisplayShowHomeEnabled(true);
         }
         activityMainProgressBar.setVisibility(View.VISIBLE);
@@ -73,6 +77,41 @@ public class MainActivity extends Activity {
                 .start();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.optionsMenu = menu;
+        getMenuInflater().inflate(R.menu.menu_action_bar_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Toast.makeText(getApplicationContext(), settingClickedMessage, Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.action_refresh:
+                setRefreshActionButtonState(true);
+                downloadDataAndFillDB();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setRefreshActionButtonState(boolean doRefresh) {
+        if (optionsMenu != null) {
+            MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
+            if (refreshItem != null) {
+                if (doRefresh) {
+                    refreshItem.setActionView(R.layout.action_bar_progress_bar);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
+    }
+
     private void downloadDataAndFillDB() {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(DATA_URL)
                 .build();
@@ -83,16 +122,7 @@ public class MainActivity extends Activity {
             @Override
             public void success(RecipesListPojoSchema recipesListPojoSchema, Response response) {
                 fillDB(recipesListPojoSchema);
-                List<RecipeData> temp = databaseManager.allObjects(RecipeData.class);
-                recipesListAdapter.setData(temp);
-                activityMainProgressBar.setVisibility(View.INVISIBLE);
-                activityMainLvRecipesList.setAdapter(recipesListAdapter);
-                new Handler(getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        setRefreshActionButtonState(false);
-                    }
-                }, REFRESH_ICON_ACTION_DELAY);
+                updateRecipesListView();
             }
 
             @Override
@@ -121,40 +151,16 @@ public class MainActivity extends Activity {
         databaseManager.commitTransaction();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        this.optionsMenu = menu;
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.action_menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Log.i(LOG_TAG, "settings");
-                return true;
-            case R.id.action_refresh:
-                Log.i(LOG_TAG, "refresh");
-                setRefreshActionButtonState(true);
-                downloadDataAndFillDB();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void setRefreshActionButtonState(boolean doRefresh) {
-        if (optionsMenu != null) {
-            MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
-            if (refreshItem != null) {
-                if (doRefresh) {
-                    refreshItem.setActionView(R.layout.action_bar_progress_bar);
-                } else {
-                    refreshItem.setActionView(null);
-                }
+    private void updateRecipesListView() {
+        List<RecipeData> tempRecipesList = databaseManager.allObjects(RecipeData.class);
+        recipesListAdapter.setData(tempRecipesList);
+        activityMainProgressBar.setVisibility(View.INVISIBLE);
+        activityMainLvRecipesList.setAdapter(recipesListAdapter);
+        new Handler(getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                setRefreshActionButtonState(false);
             }
-        }
+        }, REFRESH_ICON_ACTION_DELAY);
     }
 }

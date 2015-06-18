@@ -52,6 +52,6 @@ public class RecipeItemView extends RelativeLayout {
         Typeface typefaceSubtitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Light.ttf");
         recipeItemTvSubtitle.setText(recipeData.getRecipeSubtitle());
         recipeItemTvSubtitle.setTypeface(typefaceSubtitle);
-        ImageLoader.getInstance().displayImage(recipeData.getRecipeThumbUrl(), recipeItemIvThumbnail, options);
+        ImageLoader.getInstance().displayImage(recipeData.getRecipeImageUrl(), recipeItemIvThumbnail, options);
     }
 }

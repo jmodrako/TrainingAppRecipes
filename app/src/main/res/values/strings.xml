@@ -5,4 +5,5 @@
     <string name="title_activity_recipe_details">Recipe Details</string>
     <string name="title_activity_main_fragment">MainFragmentActivity</string>
     <string name="default_text">Empty</string>
+    <string name="action_refresh">Refresh</string>
 </resources>

@@ -1,14 +1,15 @@
 package com.recipes.views;
 
-import android.support.v4.app.FragmentActivity;
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+
 import com.recipes.R;
 import com.recipes.fragment.MenuFragment;
 import com.recipes.fragment.RecipeDescriptionFragment;
 import com.recipes.models.RecipeData;
 
-public class MainFragmentActivity extends FragmentActivity implements MenuFragment.MenuInterface {
+public class MainFragmentActivity extends Activity implements MenuFragment.MenuInterface {
 
     public final static String RECIPE_DESCRIPTION = "com.recipe.activity.RECIPE_DESCRIPTION";
     public final static String RECIPE_TITLE = "com.recipe.activity.RECIPE_TITLE";
@@ -29,7 +30,7 @@ public class MainFragmentActivity extends FragmentActivity implements MenuFragme
     private void createMenuLayout(){
         MenuFragment menu = new MenuFragment();
         menu.setArguments(getIntent().getExtras());
-        getSupportFragmentManager().beginTransaction()
+        getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, menu).commit();
     }
 
@@ -46,7 +47,7 @@ public class MainFragmentActivity extends FragmentActivity implements MenuFragme
         return findViewById(R.id.fragment_container) != null;
     }
     private void createDescriptionFragment(int id, RecipeData recipeData){
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         RecipeDescriptionFragment optionsFragment = new RecipeDescriptionFragment();
         optionsFragment.setArguments(getSendingArguments(recipeData));

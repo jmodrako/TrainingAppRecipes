@@ -1,14 +1,12 @@
 package com.recipes.fragment;
 
 import android.app.Activity;
+import android.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ListView;
 
 import com.recipes.R;
-
-
 import com.recipes.adapters.FragmentMenuAdapter;
 import com.recipes.models.RecipeData;
 

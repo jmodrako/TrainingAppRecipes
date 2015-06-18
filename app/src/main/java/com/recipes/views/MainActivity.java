@@ -1,7 +1,11 @@
 package com.recipes.views;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -27,16 +31,18 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-
 @EActivity(R.layout.activity_main)
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private static final String DATA_URL = "http://192.168.74.1:5000";
     private static final String IMAGES_URL = "http://192.168.74.1";
     private static final String DB_NAME = "recipe_db.db";
+    private static final String GET_ALL_RECIPES = "";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final long REFRESH_ICON_ACTION_DELAY = 1000;
 
     private Realm databaseManager;
+    private Menu optionsMenu;
 
     @ViewById
     ListView activityMainLvRecipesList;
@@ -49,6 +55,9 @@ public class MainActivity extends ActionBarActivity {
 
     @AfterViews
     void init() {
+        if(getActionBar() != null){
+            getActionBar().setDisplayShowHomeEnabled(true);
+        }
         activityMainProgressBar.setVisibility(View.VISIBLE);
         databaseManager = Realm.getInstance(this, DB_NAME);
         downloadDataAndFillDB();
@@ -70,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
 
         RecipeApi api = restAdapter.create(RecipeApi.class);
 
-        api.getRecipes("", new Callback<RecipesListPojoSchema>() {
+        api.getRecipes(GET_ALL_RECIPES, new Callback<RecipesListPojoSchema>() {
             @Override
             public void success(RecipesListPojoSchema recipesListPojoSchema, Response response) {
                 fillDB(recipesListPojoSchema);
@@ -78,6 +87,12 @@ public class MainActivity extends ActionBarActivity {
                 recipesListAdapter.setData(temp);
                 activityMainProgressBar.setVisibility(View.INVISIBLE);
                 activityMainLvRecipesList.setAdapter(recipesListAdapter);
+                new Handler(getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setRefreshActionButtonState(false);
+                    }
+                }, REFRESH_ICON_ACTION_DELAY);
             }
 
             @Override
@@ -91,19 +106,55 @@ public class MainActivity extends ActionBarActivity {
     private void fillDB(RecipesListPojoSchema recipesListPojoSchema) {
         RecipeData recipeData;
         List<RecipeData> tempRecipesList = new ArrayList<RecipeData>();
-        for(int i = 0; i< recipesListPojoSchema.getRecipes().size();i++){
+        for (int i = 0; i < recipesListPojoSchema.getRecipes().size(); i++) {
             recipeData = new RecipeData();
             recipeData.setRecipeId(recipesListPojoSchema.getRecipes().get(i).getId());
             recipeData.setRecipeTitle(recipesListPojoSchema.getRecipes().get(i).getTitle());
             recipeData.setRecipeDescription(recipesListPojoSchema.getRecipes().get(i).getDescription());
             recipeData.setRecipeSubtitle(recipesListPojoSchema.getRecipes().get(i).getSubtitle());
-            recipeData.setRecipeImageUrl(IMAGES_URL+ recipesListPojoSchema.getRecipes().get(i).getImageUrl());
-            recipeData.setRecipeThumbUrl(IMAGES_URL+ recipesListPojoSchema.getRecipes().get(i).getImageUrl());
+            recipeData.setRecipeImageUrl(IMAGES_URL + recipesListPojoSchema.getRecipes().get(i).getImageUrl());
             tempRecipesList.add(i, recipeData);
         }
 
         databaseManager.beginTransaction();
         databaseManager.copyToRealmOrUpdate(tempRecipesList);
         databaseManager.commitTransaction();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.optionsMenu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.action_menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Log.i(LOG_TAG, "settings");
+                return true;
+            case R.id.action_refresh:
+                Log.i(LOG_TAG, "refresh");
+                setRefreshActionButtonState(true);
+                downloadDataAndFillDB();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void setRefreshActionButtonState(boolean doRefresh) {
+        if (optionsMenu != null) {
+            MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
+            if (refreshItem != null) {
+                if (doRefresh) {
+                    refreshItem.setActionView(R.layout.action_bar_progress_bar);
+                } else {
+                    refreshItem.setActionView(null);
+                }
+            }
+        }
     }
 }

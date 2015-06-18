@@ -11,15 +11,12 @@ public class RecipeData extends RealmObject{
     private String recipeSubtitle;
     private String recipeDescription;
     private String recipeImageUrl;
-    private String recipeThumbUrl;
 
-    public RecipeData(String recipeTitle, String recipeSubtitle, String recipeDescription, String recipeImageUrl,
-                      String recipeThumbUrl) {
+    public RecipeData(String recipeTitle, String recipeSubtitle, String recipeDescription, String recipeImageUrl) {
         this.recipeTitle = recipeTitle;
         this.recipeSubtitle = recipeSubtitle;
         this.recipeDescription = recipeDescription;
         this.recipeImageUrl = recipeImageUrl;
-        this.recipeThumbUrl = recipeThumbUrl;
     }
 
     public RecipeData() {
@@ -64,13 +61,5 @@ public class RecipeData extends RealmObject{
 
     public void setRecipeImageUrl(String recipeImageUrl) {
         this.recipeImageUrl = recipeImageUrl;
-    }
-
-    public String getRecipeThumbUrl() {
-        return recipeThumbUrl;
-    }
-
-    public void setRecipeThumbUrl(String recipeThumbUrl) {
-        this.recipeThumbUrl = recipeThumbUrl;
     }
 }

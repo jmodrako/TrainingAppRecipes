@@ -1,6 +1,6 @@
 package com.recipes.views;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +13,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_recipe_details)
-public class RecipeDetailsActivity extends ActionBarActivity {
+public class RecipeDetailsActivity extends Activity {
 
     @Extra
     String extraRecipeDescription;
@@ -41,6 +41,9 @@ public class RecipeDetailsActivity extends ActionBarActivity {
 
     @AfterViews
     void init(){
+        if(getActionBar() != null){
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         activityRecipeDetailsTvDescription.setText(extraRecipeDescription);
         activityRecipeDetailsTvTitle.setText(extraRecipeTitle);
         activityRecipeDetailsTvSubtitle.setText(extraRecipeSubtitle);

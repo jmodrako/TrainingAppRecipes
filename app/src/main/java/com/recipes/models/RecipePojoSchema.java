@@ -16,7 +16,6 @@ import java.util.Map;
         "id",
         "imageUrl",
         "subtitle",
-        "thumbUrl",
         "title"
 })
 public class RecipePojoSchema {
@@ -29,8 +28,6 @@ public class RecipePojoSchema {
     private String imageUrl;
     @JsonProperty("subtitle")
     private String subtitle;
-    @JsonProperty("thumbUrl")
-    private String thumbUrl;
     @JsonProperty("title")
     private String title;
     @JsonIgnore
@@ -114,26 +111,6 @@ public class RecipePojoSchema {
     @JsonProperty("subtitle")
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
-    }
-
-    /**
-     *
-     * @return
-     * The thumbUrl
-     */
-    @JsonProperty("thumbUrl")
-    public String getThumbUrl() {
-        return thumbUrl;
-    }
-
-    /**
-     *
-     * @param thumbUrl
-     * The thumbUrl
-     */
-    @JsonProperty("thumbUrl")
-    public void setThumbUrl(String thumbUrl) {
-        this.thumbUrl = thumbUrl;
     }
 
     /**

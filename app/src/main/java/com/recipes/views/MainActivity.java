@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
     ProgressBar activityMainProgressBar;
 
     @StringRes
-    String settingClickedMessage;
+    String settings_clicked_message;
 
     @AfterViews
     void init() {
@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Toast.makeText(getApplicationContext(), settingClickedMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), settings_clicked_message, Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_refresh:
                 setRefreshActionButtonState(true);

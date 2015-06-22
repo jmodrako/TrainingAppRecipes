@@ -47,7 +47,7 @@ public class RecipeDetailsActivity extends Activity {
     ImageView activityRecipeDetailsIvImage;
 
     @StringRes
-    String settingClickedMessage;
+    String settings_clicked_message;
 
     private Intent shareIntent;
 
@@ -81,7 +81,7 @@ public class RecipeDetailsActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                Toast.makeText(getApplicationContext(), settingClickedMessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), settings_clicked_message, Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

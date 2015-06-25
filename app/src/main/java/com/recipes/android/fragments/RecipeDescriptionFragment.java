@@ -1,4 +1,4 @@
-package com.recipes.fragment;
+package com.recipes.android.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.recipes.R;
-import com.recipes.views.MainFragmentActivity;
+import com.recipes.android.activities.MainFragmentActivity;
 
 import butterknife.ButterKnife;
 

@@ -1,24 +1,13 @@
-package com.recipes.widgets;
+package com.recipes.android.views;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.recipes.R;
-import com.recipes.models.RecipeData;
-
-import org.androidannotations.annotations.EViewGroup;
-import org.androidannotations.annotations.ViewById;
 
 
-@EViewGroup(R.layout.view_recipe_item)
+//@EViewGroup(R.layout.adapter_recipes_list)
 public class RecipeItemView extends RelativeLayout {
 
-    @ViewById
+    /*@ViewById
     TextView recipeItemTvTitle;
 
     @ViewById
@@ -28,28 +17,28 @@ public class RecipeItemView extends RelativeLayout {
     ImageView recipeItemIvThumbnail;
 
     private DisplayImageOptions options;
-    private Context context;
+    private Context context;*/
 
     public RecipeItemView(Context context) {
         super(context);
-        this.context = context;
+        /*this.context = context;
         options = new DisplayImageOptions.Builder()
                 //.showImageOnLoading(R.drawable.loading)
                 //.showImageForEmptyUri(R.drawable.no_image)
                 //.showImageOnFail(R.drawable.error)
                 .resetViewBeforeLoading(true)
                 .cacheOnDisk(true)
-                .build();
+                .build();*/
     }
 
-    public void bind(RecipeData recipeData) {
+   /* public void bind(Recipe recipe) {
         Typeface typefaceTitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
-        recipeItemTvTitle.setText(recipeData.getRecipeTitle());
+        recipeItemTvTitle.setText(recipe.getRecipeTitle());
         recipeItemTvTitle.setTypeface(typefaceTitle);
 
         Typeface typefaceSubtitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Light.ttf");
-        recipeItemTvSubtitle.setText(recipeData.getRecipeSubtitle());
+        recipeItemTvSubtitle.setText(recipe.getRecipeSubtitle());
         recipeItemTvSubtitle.setTypeface(typefaceSubtitle);
-        ImageLoader.getInstance().displayImage(recipeData.getRecipeImageUrl(), recipeItemIvThumbnail, options);
-    }
+        ImageLoader.getInstance().displayImage(recipe.getRecipeImageUrl(), recipeItemIvThumbnail, options);
+    }*/
 }

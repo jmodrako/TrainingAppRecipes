@@ -1,13 +1,12 @@
-package com.recipes.adapters;
+package com.recipes.android.adapters;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.recipes.models.RecipeData;
-import com.recipes.widgets.RecipeItemView;
-import com.recipes.widgets.RecipeItemView_;
+import com.recipes.data.models.Recipe;
+import com.recipes.android.views.RecipeItemView;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 public class FragmentMenuAdapter extends BaseAdapter {
     Context context;
     int layoutResourceId;
-    List<RecipeData> data;
+    List<Recipe> data;
     public FragmentMenuAdapter(Context context, int layoutResourceId) {
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -28,7 +27,7 @@ public class FragmentMenuAdapter extends BaseAdapter {
     }
 
     @Override
-    public RecipeData getItem(int position) {
+    public Recipe getItem(int position) {
         return data.get(position);
     }
 
@@ -38,14 +37,14 @@ public class FragmentMenuAdapter extends BaseAdapter {
     }
 
     public View getView (int position, View convertView, ViewGroup parent){
-        RecipeItemView recipeItemView;
+        RecipeItemView recipeItemView = null;
         if (convertView == null) {
-            recipeItemView = RecipeItemView_.build(context);
+            //recipeItemView = RecipeItemView_.build(context);
         } else {
-            recipeItemView = (RecipeItemView) convertView;
+            //recipeItemView = (RecipeItemView) convertView;
         }
 
-        recipeItemView.bind(getItem(position));
+        //recipeItemView.bind(getItem(position));
 
         return recipeItemView;
     }

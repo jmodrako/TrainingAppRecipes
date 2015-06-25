@@ -8,12 +8,12 @@
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/activityMainLvRecipesList"/>
+        android:id="@+id/activity_main_lv_recipes_list"/>
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/activityMainProgressBar"
+        android:id="@+id/activity_main_pb_load_recipes_list"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:indeterminate="true"/>

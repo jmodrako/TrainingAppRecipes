@@ -1,4 +1,4 @@
-package com.recipes.models;
+package com.recipes.data.models;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;

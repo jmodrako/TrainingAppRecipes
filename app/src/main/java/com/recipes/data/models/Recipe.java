@@ -1,9 +1,9 @@
-package com.recipes.models;
+package com.recipes.data.models;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class RecipeData extends RealmObject{
+public class Recipe extends RealmObject {
 
     @PrimaryKey
     private int recipeId;
@@ -12,14 +12,16 @@ public class RecipeData extends RealmObject{
     private String recipeDescription;
     private String recipeImageUrl;
 
-    public RecipeData(String recipeTitle, String recipeSubtitle, String recipeDescription, String recipeImageUrl) {
+    public Recipe(String recipeTitle, String recipeSubtitle, String recipeDescription,
+                  String recipeImageUrl) {
         this.recipeTitle = recipeTitle;
         this.recipeSubtitle = recipeSubtitle;
         this.recipeDescription = recipeDescription;
         this.recipeImageUrl = recipeImageUrl;
     }
 
-    public RecipeData() {
+
+    public Recipe() {
 
     }
 

@@ -6,15 +6,28 @@ import android.content.Context;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import com.recipes.data.interfaces.IRecipeDao;
+import com.recipes.dependency_injection.interfaces.DaggerRecipeDaoLayer;
+import com.recipes.dependency_injection.interfaces.RecipeDaoLayer;
+import com.recipes.dependency_injection.modules.RecipeModule;
+
 /**
  * Created by michal.radtke@gmail.com on 2015-06-16.
  */
-public class AppController extends Application {
+public class RecipeApplication extends Application {
+
+    protected RecipeDaoLayer recipeDaoLayer;
 
     @Override
     public void onCreate() {
         super.onCreate();
         initImageLoader(getApplicationContext());
+
+        prepareDependencies();
+    }
+
+    protected void prepareDependencies(){
+        recipeDaoLayer = DaggerRecipeDaoLayer.builder().recipeModule(new RecipeModule(this)).build();
     }
 
     /**
@@ -33,5 +46,9 @@ public class AppController extends Application {
                 .build();
 
         ImageLoader.getInstance().init(config);
+    }
+
+    public IRecipeDao getRecipeDao() {
+        return recipeDaoLayer.recipeDao();
     }
 }

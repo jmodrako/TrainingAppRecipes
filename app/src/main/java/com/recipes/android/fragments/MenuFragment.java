@@ -1,4 +1,4 @@
-package com.recipes.fragment;
+package com.recipes.android.fragments;
 
 import android.app.Activity;
 import android.app.ListFragment;
@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.recipes.R;
-import com.recipes.adapters.FragmentMenuAdapter;
-import com.recipes.models.RecipeData;
+import com.recipes.android.adapters.FragmentMenuAdapter;
+import com.recipes.data.models.Recipe;
 
 public class MenuFragment extends ListFragment {
     private MenuInterface listener;
@@ -16,7 +16,7 @@ public class MenuFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FragmentMenuAdapter adapter = new FragmentMenuAdapter(getActivity(),R.layout.view_recipe_item);
+        FragmentMenuAdapter adapter = new FragmentMenuAdapter(getActivity(),R.layout.adapter_recipes_list);
         setListAdapter(adapter);
     }
 
@@ -44,7 +44,7 @@ public class MenuFragment extends ListFragment {
     }
 
     public interface MenuInterface {
-        public void onMenuSelected(RecipeData recipeData);
+        public void onMenuSelected(Recipe recipe);
     }
 
     @Override

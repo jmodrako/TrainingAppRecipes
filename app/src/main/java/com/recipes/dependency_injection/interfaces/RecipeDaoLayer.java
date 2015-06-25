@@ -1,6 +1,7 @@
 package com.recipes.dependency_injection.interfaces;
 
 import com.recipes.data.interfaces.IRecipeDao;
+import com.recipes.data.models.Recipe;
 import com.recipes.dependency_injection.modules.RecipeModule;
 
 import javax.inject.Singleton;
@@ -13,5 +14,5 @@ import dagger.Component;
 @Singleton
 @Component(modules = {RecipeModule.class})
 public interface RecipeDaoLayer {
-    IRecipeDao recipeDao();
+    IRecipeDao<Recipe> recipeDao();
 }

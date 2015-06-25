@@ -7,6 +7,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import com.recipes.data.interfaces.IRecipeDao;
+import com.recipes.data.models.Recipe;
 import com.recipes.dependency_injection.interfaces.DaggerRecipeDaoLayer;
 import com.recipes.dependency_injection.interfaces.RecipeDaoLayer;
 import com.recipes.dependency_injection.modules.RecipeModule;
@@ -48,7 +49,7 @@ public class RecipeApplication extends Application {
         ImageLoader.getInstance().init(config);
     }
 
-    public IRecipeDao getRecipeDao() {
+    public IRecipeDao<Recipe> getRecipeDao() {
         return recipeDaoLayer.recipeDao();
     }
 }

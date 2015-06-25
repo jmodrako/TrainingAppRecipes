@@ -19,6 +19,8 @@ import com.recipes.connection.interfaces.IRecipeApi;
 import com.recipes.data.interfaces.IRecipeDao;
 import com.recipes.data.models.Recipe;
 import com.recipes.data.models.RecipesListPojoSchema;
+import com.recipes.dependency_injection.interfaces.DaggerRecipesListAdapterLayer;
+import com.recipes.dependency_injection.modules.RecipesListAdapterModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,22 +42,19 @@ public class MainActivity extends Activity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final long REFRESH_ICON_ACTION_DELAY = 1000;
 
-    private Menu optionsMenu;
-
     //In AA: @ViewById(R.id.activity_main_lv_recipes_list)
     @InjectView(R.id.activity_main_lv_recipes_list)
     ListView lvRecipesList;
 
-    //In AA: @Bean
-    protected RecipesListAdapter recipesListAdapter;
-
     @InjectView(R.id.activity_main_pb_load_recipes_list)
-    protected ProgressBar pbLoadRecipesList;
+    private ProgressBar pbLoadRecipesList;
 
+    //In AA: @Bean
+    private RecipesListAdapter recipesListAdapter;
     //In AA: @Bean(RecipeDaoImpl.class)
     //IRecipeDao recipeDao;
-
-    IRecipeDao recipeDao;
+    private IRecipeDao<Recipe> recipeDao;
+    private Menu optionsMenu;
 
     //In AA: @AfterViews
     @Override
@@ -66,7 +65,9 @@ public class MainActivity extends Activity {
 
         recipeDao = getAppController().getRecipeDao();
 
-        recipesListAdapter = new RecipesListAdapter(this);
+        recipesListAdapter = DaggerRecipesListAdapterLayer.builder()
+                .recipesListAdapterModule(new RecipesListAdapterModule(this)).build()
+                .recipesListAdapter();
         if (getActionBar() != null) {
             getActionBar().setDisplayShowHomeEnabled(true);
         }

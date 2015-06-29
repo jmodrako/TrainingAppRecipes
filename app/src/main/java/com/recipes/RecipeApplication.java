@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
 import com.recipes.data.interfaces.IRecipeDao;
 import com.recipes.data.models.Recipe;
 import com.recipes.dependency_injection.interfaces.DaggerRecipeDaoLayer;
@@ -23,12 +22,12 @@ public class RecipeApplication extends Application {
     public void onCreate() {
         super.onCreate();
         initImageLoader(getApplicationContext());
-
         prepareDependencies();
     }
 
-    protected void prepareDependencies(){
-        recipeDaoLayer = DaggerRecipeDaoLayer.builder().recipeModule(new RecipeModule(this)).build();
+    protected void prepareDependencies() {
+        recipeDaoLayer =
+                DaggerRecipeDaoLayer.builder().recipeModule(new RecipeModule(this)).build();
     }
 
     /**

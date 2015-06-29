@@ -63,7 +63,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        recipeDao = getAppController().getRecipeDao();
+        recipeDao = getRecipeApplication().getRecipeDao();
 
         recipesListAdapter = DaggerRecipesListAdapterLayer.builder()
                 .recipesListAdapterModule(new RecipesListAdapterModule(this)).build()
@@ -73,10 +73,6 @@ public class MainActivity extends Activity {
         }
         pbLoadRecipesList.setVisibility(View.VISIBLE);
         downloadDataAndFillDB();
-    }
-
-    private RecipeApplication getAppController() {
-        return (RecipeApplication) getApplication();
     }
 
     //In AA: @ItemClicked
@@ -89,19 +85,7 @@ public class MainActivity extends Activity {
                 .extraRecipeImageUrl(recipe.getRecipeImageUrl())
                 .start();*/
         Recipe selectedRecipe = recipeDao.getRecipe(position);
-        Intent recipeDetailIntent = new Intent(this, RecipeDetailsActivity.class);
-        recipeDetailIntent.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_DESCRIPTION,
-                selectedRecipe.getRecipeDescription());
-        recipeDetailIntent
-                .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_TITLE,
-                        selectedRecipe.getRecipeTitle());
-        recipeDetailIntent
-                .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_SUBTITLE,
-                        selectedRecipe.getRecipeSubtitle());
-        recipeDetailIntent
-                .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_IMAGE_URL,
-                        selectedRecipe.getRecipeImageUrl());
-        startActivity(recipeDetailIntent);
+        startActivity(prepareIntentForNextActivity(selectedRecipe));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
@@ -128,6 +112,27 @@ public class MainActivity extends Activity {
         }
     }
 
+    private RecipeApplication getRecipeApplication() {
+        return (RecipeApplication) getApplication();
+    }
+
+    private Intent prepareIntentForNextActivity(Recipe selectedRecipe) {
+        Intent recipeDetailIntent = new Intent(this, RecipeDetailsActivity.class);
+        recipeDetailIntent.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_DESCRIPTION,
+                selectedRecipe.getRecipeDescription());
+        recipeDetailIntent
+                .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_TITLE,
+                        selectedRecipe.getRecipeTitle());
+        recipeDetailIntent
+                .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_SUBTITLE,
+                        selectedRecipe.getRecipeSubtitle());
+        recipeDetailIntent
+                .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_IMAGE_URL,
+                        selectedRecipe.getRecipeImageUrl());
+
+        return recipeDetailIntent;
+    }
+
     private void setRefreshActionButtonState(boolean doRefresh) {
         if (optionsMenu != null) {
             MenuItem refreshItem = optionsMenu.findItem(R.id.action_refresh);
@@ -141,7 +146,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    protected void downloadDataAndFillDB() {
+    private void downloadDataAndFillDB() {
         RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(DATA_URL)
                 .build();

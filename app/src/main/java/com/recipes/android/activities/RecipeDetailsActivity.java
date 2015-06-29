@@ -72,7 +72,7 @@ public class RecipeDetailsActivity extends Activity {
             setTextViewsTexts(extras.getString(EXTRA_RECIPE_TITLE),
                     extras.getString(EXTRA_RECIPE_SUBTITLE),
                     extras.getString(EXTRA_RECIPE_DESCRIPTION));
-            setShareButton(tvTitle.getText().toString());
+            setShareButton(extras.getString(EXTRA_RECIPE_TITLE));
             Picasso.with(this)
                     .load(extras.getString(EXTRA_RECIPE_IMAGE_URL))
                     .into(ivImage);

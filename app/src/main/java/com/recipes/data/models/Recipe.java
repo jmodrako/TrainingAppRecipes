@@ -64,4 +64,5 @@ public class Recipe extends RealmObject {
     public void setRecipeImageUrl(String recipeImageUrl) {
         this.recipeImageUrl = recipeImageUrl;
     }
+
 }

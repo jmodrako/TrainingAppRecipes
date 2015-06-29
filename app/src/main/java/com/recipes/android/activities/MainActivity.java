@@ -36,8 +36,8 @@ import retrofit.client.Response;
 //In AA: @EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
 
-    private static final String DATA_URL = "http://192.168.74.1:5000";
-    private static final String IMAGES_URL = "http://192.168.74.1";
+    private static final String DATA_URL = "http://192.168.56.1:5000";
+    private static final String IMAGES_URL = "http://192.168.56.1";
     private static final String GET_ALL_RECIPES = "";
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final long REFRESH_ICON_ACTION_DELAY = 1000;
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     ListView lvRecipesList;
 
     @InjectView(R.id.activity_main_pb_load_recipes_list)
-    private ProgressBar pbLoadRecipesList;
+    ProgressBar pbLoadRecipesList;
 
     //In AA: @Bean
     private RecipesListAdapter recipesListAdapter;
@@ -102,6 +102,7 @@ public class MainActivity extends Activity {
                 .putExtra(RecipeDetailsActivity.EXTRA_RECIPE_IMAGE_URL,
                         selectedRecipe.getRecipeImageUrl());
         startActivity(recipeDetailIntent);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 
     @Override

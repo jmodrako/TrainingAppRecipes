@@ -97,6 +97,8 @@ public class RecipeDetailsActivity extends Activity {
                 Toast.makeText(getApplicationContext(),
                         getString(R.string.settings_clicked_message), Toast.LENGTH_SHORT).show();
                 return true;
+            case android.R.id.home:
+                onBackPressed();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -127,5 +129,11 @@ public class RecipeDetailsActivity extends Activity {
         tvDescription.setText(description);
         tvTitle.setText(title);
         tvSubtitle.setText(subtitle);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

@@ -26,18 +26,19 @@ public class MainFragmentActivity extends Activity implements MenuFragment.MenuI
         setContentView(R.layout.activity_main_fragment);
 
         if (isItSmallDevice()) {
-            createMenuLayout();
+            createMenuLayout(R.id.fragment_container);
         }else{
+            createMenuLayout(R.id.fragmentList);
             createDescriptionFragment(R.id.fragment_containerLarge, new Recipe());
         }
 
     }
-    private void createMenuLayout(){
+    private void createMenuLayout(int id){
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.setCustomAnimations(R.animator.fade_in,R.animator.fade_out);
 
         MenuFragment optionsFragment = new MenuFragment();
-        transaction.replace(R.id.fragment_container, optionsFragment);
+        transaction.replace(id, optionsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -98,7 +99,7 @@ public class MainFragmentActivity extends Activity implements MenuFragment.MenuI
     public void onBackPressed() {
         Fragment f = getFragmentManager().findFragmentById(R.id.fragment_container);
         if (f instanceof RecipeDescriptionFragment) {
-            createMenuLayout();
+            createMenuLayout(R.id.fragment_container);
         } else {
             finish();
         }

@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.recipes.R;
-import com.recipes.android.adapters.FragmentMenuAdapter;
+import com.recipes.android.adapters.RecipesListAdapter;
 import com.recipes.connection.interfaces.IRecipeApi;
 import com.recipes.data.models.Recipe;
 import com.recipes.data.models.RecipesListPojoSchema;
@@ -40,13 +40,13 @@ public class MenuFragment extends ListFragment {
     private Realm databaseManager;
     private MenuInterface listener;
 
-    private FragmentMenuAdapter adapter;
+    private RecipesListAdapter adapter;
     private List<Recipe> recipesList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new FragmentMenuAdapter(getActivity(),R.layout.adapter_recipes_list);
+        adapter = new RecipesListAdapter(getActivity());
         setHasOptionsMenu(true);
     }
 

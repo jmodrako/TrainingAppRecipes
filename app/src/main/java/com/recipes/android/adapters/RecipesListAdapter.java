@@ -44,17 +44,6 @@ public class RecipesListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
-        /*In AA:
-        RecipeItemView recipeItemView;
-        if (convertView == null) {
-            recipeItemView = RecipeItemView_.build(context);
-        } else {
-            recipeItemView = (RecipeItemView) convertView;
-        }
-
-        recipeItemView.bind(getItem(position));
-        return recipeItemView;*/
-
         ViewHolder viewHolder;
         if(view != null){
             viewHolder = (ViewHolder) view.getTag();
@@ -64,13 +53,8 @@ public class RecipesListAdapter extends BaseAdapter {
             view.setTag(viewHolder);
         }
 
-        Typeface typefaceTitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Bold.ttf");
         viewHolder.tvTitle.setText(recipesList.get(position).getRecipeTitle());
-        viewHolder.tvTitle.setTypeface(typefaceTitle);
-
-        Typeface typefaceSubtitle = Typeface.createFromAsset(context.getAssets(), "fonts/RobotoCondensed-Light.ttf");
         viewHolder.tvSubtitle.setText(recipesList.get(position).getRecipeSubtitle());
-        viewHolder.tvSubtitle.setTypeface(typefaceSubtitle);
         ImageLoader.getInstance().displayImage(recipesList.get(position).getRecipeImageUrl(), viewHolder.ivThumbnail,
                 options);
 

@@ -13,5 +13,26 @@
     <style name="AppTitleStyle" parent="android:TextAppearance.Material.Title">
         <item name="android:paddingLeft">5dp</item>
     </style>
+ó
+    <style name="TitleTextStyle" parent="android:TextAppearance.Material.Widget.TextView">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/title_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SubtitleTextStyle" parent="android:TextAppearance.Material.Widget.TextView">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/subtitle_size</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="DescriptionTextStyle" parent="android:TextAppearance.Material.Widget.TextView">
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/description_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
 </resources>

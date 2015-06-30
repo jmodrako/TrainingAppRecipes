@@ -3,8 +3,10 @@ package com.recipes;
 import com.recipes.data.interfaces.IRecipeDao;
 import com.recipes.data.models.Recipe;
 import com.recipes.dependency_injection.interfaces.RecipeDaoLayer;
+import com.recipes.util.Parameters;
 
-import org.mockito.Mockito;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -14,31 +16,69 @@ import static org.mockito.Mockito.when;
  */
 public class RecipeApplicationTest extends RecipeApplication {
 
-    public static final int EXAMPLE_ID = 1;
-    public static final String EXAMPLE_TITLE = "Deep fry Fish";
-    public static final String EXAMPLE_SUBTITLE = "Created by Misiu on 29.06.2015";
-    public static final String EXAMPLE_IMAGE_URL = "http://img.com";
-    public static final String EXAMPLE_DESCRIPTION = "The Fish deep fried in sunflower oil";
-
     IRecipeDao recipeDao;
 
     @Override
     protected void prepareDependencies() {
         recipeDaoLayer = mock(RecipeDaoLayer.class);
-        recipeDao = mock(IRecipeDao.class);
+        recipeDao = new MockDB();
 
-        when(recipeDao.getRecipe(Mockito.anyInt())).thenReturn(prepareRecipe());
         when(recipeDaoLayer.recipeDao()).thenReturn(recipeDao);
     }
 
-    private Recipe prepareRecipe(){
-        Recipe recipe = new Recipe();
-        recipe.setRecipeId(EXAMPLE_ID);
-        recipe.setRecipeTitle(EXAMPLE_TITLE);
-        recipe.setRecipeDescription(EXAMPLE_DESCRIPTION);
-        recipe.setRecipeImageUrl(EXAMPLE_IMAGE_URL);
-        recipe.setRecipeSubtitle(EXAMPLE_SUBTITLE);
+    private class MockDB implements IRecipeDao<Recipe> {
 
-        return recipe;
+        private List<Recipe> data;
+
+        public MockDB() {
+            data = new ArrayList<Recipe>();
+        }
+
+        @Override
+        public List<Recipe> getAllRecipes() {
+            return data;
+        }
+
+        @Override
+        public Recipe getRecipe(int recipeId) {
+            for (Recipe recipe : data) {
+                if (recipe.getRecipeId() == recipeId) {
+                    return recipe;
+                }
+            }
+
+            throw new IllegalArgumentException("Bad ID!");
+        }
+
+        @Override
+        public void updateRecipe(Recipe recipe) {
+            Parameters.checkNotNull(recipe);
+            data.set(recipe.getRecipeId(), recipe);
+
+            throw new IllegalArgumentException("Recipe doesn't exist!");
+        }
+
+        @Override
+        public void deleteRecipe(int recipeId) {
+            data.remove(recipeId);
+
+            throw new IllegalArgumentException("Bad ID!");
+        }
+
+        @Override
+        public void insertRecipe(Recipe recipe) {
+            Parameters.checkNotNull(recipe);
+            data.add(recipe.getRecipeId(), recipe);
+        }
+
+        @Override
+        public void insertAllRecipes(List<Recipe> recipes) {
+
+        }
+
+        @Override
+        public long getCount() {
+            return data.size();
+        }
     }
 }

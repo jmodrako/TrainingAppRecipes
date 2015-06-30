@@ -2,50 +2,50 @@
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/activity_vertical_margin_normal_layout"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin_normal_layout"
-                android:paddingBottom="@dimen/activity_vertical_margin_normal_layout"
-                android:orientation="vertical"
-                tools:context="com.recipes.android.activities.RecipeDetailsActivity"
-                android:background="@color/white">
+                tools:context="com.recipes.android.activities.RecipeDetailsActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/activity_recipe_details_tv_title"
-        android:text="@string/default_text"
-        android:textSize="@dimen/detail_title_size"
-        android:textColor="@color/black"/>
-
-    <TextView
+        style="@style/TitleTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/activity_recipe_details_tv_subtitle"
         android:text="@string/default_text"
-        android:textSize="@dimen/subtitle_size"
-        android:layout_below="@+id/activity_recipe_details_tv_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/detail_title_size"/>
+
+    <TextView
+        android:id="@+id/activity_recipe_details_tv_subtitle"
+        style="@style/SubtitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:textColor="@color/grey"/>
+        android:layout_below="@+id/activity_recipe_details_tv_title"
+        android:text="@string/default_text"/>
 
     <ImageView
+        android:id="@+id/activity_recipe_details_iv_image"
         android:layout_width="wrap_content"
         android:layout_height="250dp"
-        android:id="@+id/activity_recipe_details_iv_image"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/activity_recipe_details_tv_subtitle"
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_horizontal_margin"
-        android:layout_below="@+id/activity_recipe_details_tv_subtitle"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"/>
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
+        android:id="@+id/activity_recipe_details_tv_description"
+        style="@style/DescriptionTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/activity_recipe_details_tv_description"
-        android:text="@string/default_text"
-        android:layout_below="@+id/activity_recipe_details_iv_image"
         android:layout_alignParentStart="true"
-        android:textColor="@color/black"/>
+        android:layout_below="@+id/activity_recipe_details_iv_image"
+        android:text="@string/default_text"/>
 </RelativeLayout>

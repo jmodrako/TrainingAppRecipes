@@ -16,9 +16,11 @@ public interface IRecipeDao<T> {
 
     public void updateRecipe(T recipe);
 
-    public void deleteRecipe(T recipe);
+    public void deleteRecipe(int recipeId);
 
     public void insertRecipe(T recipe);
 
     public void insertAllRecipes(List<T> recipes);
+
+    public long getCount();
 }

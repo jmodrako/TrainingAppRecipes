@@ -2,7 +2,6 @@ package com.recipes.android.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -68,7 +67,6 @@ public class RecipeDetailsActivity extends Activity {
         }
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            setTextViewsFonts();
             setTextViewsTexts(extras.getString(EXTRA_RECIPE_TITLE),
                     extras.getString(EXTRA_RECIPE_SUBTITLE),
                     extras.getString(EXTRA_RECIPE_DESCRIPTION));
@@ -104,18 +102,10 @@ public class RecipeDetailsActivity extends Activity {
         }
     }
 
-    private void setTextViewsFonts() {
-        Typeface typefaceTitle =
-                Typeface.createFromAsset(getAssets(), "fonts/RobotoCondensed-Bold.ttf");
-        tvTitle.setTypeface(typefaceTitle);
-
-        Typeface typefaceSubtitle =
-                Typeface.createFromAsset(getAssets(), "fonts/RobotoCondensed-Light.ttf");
-        tvSubtitle.setTypeface(typefaceSubtitle);
-
-        Typeface typefaceDescription =
-                Typeface.createFromAsset(getAssets(), "fonts/RobotoCondensed-Regular.ttf");
-        tvDescription.setTypeface(typefaceDescription);
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 
     private void setShareButton(String messageToShare) {
@@ -129,11 +119,5 @@ public class RecipeDetailsActivity extends Activity {
         tvDescription.setText(description);
         tvTitle.setText(title);
         tvSubtitle.setText(subtitle);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
 }

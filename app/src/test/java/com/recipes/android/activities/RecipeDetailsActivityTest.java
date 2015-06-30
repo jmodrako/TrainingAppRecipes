@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.recipes.BuildConfig;
 import com.recipes.R;
 import com.recipes.RecipeApplicationTest;
+import com.recipes.TestUtils;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,28 +31,33 @@ import static org.junit.Assert.assertTrue;
         emulateSdk = 21, manifest = "com/recipes/app/src/main/AndroidManifest.xml")
 public class RecipeDetailsActivityTest {
 
+    private static final String EXTRA_RECIPE_DESCRIPTION = "extra_recipe_description";
+    private static final String EXTRA_RECIPE_TITLE = "extra_recipe_title";
+    private static final String EXTRA_RECIPE_SUBTITLE = "extra_recipe_subtitle";
+    private static final String EXTRA_RECIPE_IMAGE_URL = "extra_recipe_image_url";
+
     private RecipeDetailsActivity sut;
 
     @Before
     public void setup() throws Exception {
-        sut = Robolectric.buildActivity(RecipeDetailsActivity.class)
-                .withIntent(prepareIntentForActivity()).create().get();
+        sut = Robolectric.buildActivity(RecipeDetailsActivity.class).withIntent(
+                prepareIntentForActivity()).create().get();
     }
 
     @Test
     public void checkLayout() {
         TextView tvTitle = (TextView) sut.findViewById(R.id.activity_recipe_details_tv_title);
         assertNotNull(tvTitle);
-        assertEquals(tvTitle.getText().toString(), RecipeApplicationTest.EXAMPLE_TITLE);
+        assertEquals(tvTitle.getText().toString(), TestUtils.EXAMPLE_1_TITLE);
 
         TextView tvSubtitle = (TextView) sut.findViewById(R.id.activity_recipe_details_tv_subtitle);
         assertNotNull(tvSubtitle);
-        assertEquals(tvSubtitle.getText().toString(), RecipeApplicationTest.EXAMPLE_SUBTITLE);
+        assertEquals(tvSubtitle.getText().toString(), TestUtils.EXAMPLE_1_SUBTITLE);
 
         TextView tvDescription =
                 (TextView) sut.findViewById(R.id.activity_recipe_details_tv_description);
         assertNotNull(tvDescription);
-        assertEquals(tvDescription.getText().toString(), RecipeApplicationTest.EXAMPLE_DESCRIPTION);
+        assertEquals(tvDescription.getText().toString(), TestUtils.EXAMPLE_1_DESCRIPTION);
 
         ImageView ivImage = (ImageView) sut.findViewById(R.id.activity_recipe_details_iv_image);
         assertNotNull(ivImage);
@@ -70,12 +76,9 @@ public class RecipeDetailsActivityTest {
 
     private Intent prepareIntentForActivity() {
         return new Intent()
-                .putExtra(MainActivityTest.EXTRA_RECIPE_TITLE, RecipeApplicationTest.EXAMPLE_TITLE)
-                .putExtra(MainActivityTest.EXTRA_RECIPE_DESCRIPTION,
-                        RecipeApplicationTest.EXAMPLE_DESCRIPTION)
-                .putExtra(MainActivityTest.EXTRA_RECIPE_SUBTITLE,
-                        RecipeApplicationTest.EXAMPLE_SUBTITLE)
-                .putExtra(MainActivityTest.EXTRA_RECIPE_IMAGE_URL,
-                        RecipeApplicationTest.EXAMPLE_IMAGE_URL);
+                .putExtra(EXTRA_RECIPE_TITLE, TestUtils.EXAMPLE_1_TITLE)
+                .putExtra(EXTRA_RECIPE_DESCRIPTION, TestUtils.EXAMPLE_1_DESCRIPTION)
+                .putExtra(EXTRA_RECIPE_SUBTITLE, TestUtils.EXAMPLE_1_SUBTITLE)
+                .putExtra(EXTRA_RECIPE_IMAGE_URL, TestUtils.EXAMPLE_1_IMAGE_URL);
     }
 }

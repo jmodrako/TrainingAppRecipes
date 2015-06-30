@@ -7,13 +7,14 @@ import android.widget.ProgressBar;
 
 import com.recipes.BuildConfig;
 import com.recipes.R;
-import com.recipes.RecipeApplication;
 import com.recipes.RecipeApplicationTest;
+import com.recipes.TestUtils;
+import com.recipes.data.interfaces.IRecipeDao;
+import com.recipes.data.models.Recipe;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.Shadows;
@@ -24,25 +25,28 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(application = RecipeApplicationTest.class, constants = BuildConfig.class,
         emulateSdk = 21, manifest = "com/recipes/app/src/main/AndroidManifest.xml")
 public class MainActivityTest {
 
-    public static final String EXTRA_RECIPE_DESCRIPTION = "extra_recipe_description";
-    public static final String EXTRA_RECIPE_TITLE = "extra_recipe_title";
-    public static final String EXTRA_RECIPE_SUBTITLE = "extra_recipe_subtitle";
-    public static final String EXTRA_RECIPE_IMAGE_URL = "extra_recipe_image_url";
+    private static final String EXTRA_RECIPE_DESCRIPTION = "extra_recipe_description";
+    private static final String EXTRA_RECIPE_TITLE = "extra_recipe_title";
+    private static final String EXTRA_RECIPE_SUBTITLE = "extra_recipe_subtitle";
+    private static final String EXTRA_RECIPE_IMAGE_URL = "extra_recipe_image_url";
+    private static final int FIRST_ITEM = 0;
 
     private MainActivity sut;
-    private RecipeApplication app;
+    private RecipeApplicationTest app;
+    private IRecipeDao<Recipe> dao;
 
     @Before
     public void setup() throws Exception {
         sut = Robolectric.setupActivity(MainActivity.class);
-        app = (RecipeApplication) sut.getApplication();
+        app = (RecipeApplicationTest) sut.getApplication();
+        dao = app.getRecipeDao();
+        dao.insertRecipe(TestUtils.getRecipeExample1());
     }
 
     @Test
@@ -51,33 +55,27 @@ public class MainActivityTest {
     }
 
     @Test
-    public void testDatabaseContent() {
-        final String title = app.getRecipeDao().getRecipe(Matchers.anyInt()).getRecipeTitle();
-        assertEquals(title, RecipeApplicationTest.EXAMPLE_TITLE);
-        System.out.println("Dao class: " + app.getRecipeDao().getRecipe(324).getRecipeTitle());
-    }
-
-    @Test
     public void testRecipesListView() {
         ListView lv = (ListView) sut.findViewById(R.id.activity_main_lv_recipes_list);
         assertNotNull(lv);
-        assertTrue(lv.getCount() == app.getRecipeDao().getAllRecipes().size());
+        assertEquals(TestUtils.EXAMPLE_1_TITLE,
+                dao.getRecipe(TestUtils.EXAMPLE_1_ID).getRecipeTitle());
 
         ListView mockListView = mock((ListView.class));
-        when(mockListView.performItemClick(lv, 0, 0)).thenReturn(true);
-        assertNotNull(app.getRecipeDao().getRecipe(0));
+        mockListView.performItemClick(lv, FIRST_ITEM, 0);
+        assertNotNull(dao.getRecipe(FIRST_ITEM));
     }
 
     @Test
     public void testRecipesListView_startRecipeDetailsActivity() {
+        assertEquals(TestUtils.EXAMPLE_1_TITLE,
+                dao.getRecipe(TestUtils.EXAMPLE_1_ID).getRecipeTitle());
         sut.startActivity(prepareIntentForNextActivity());
 
         ShadowActivity shadowActivity = Shadows.shadowOf(sut);
         Intent intent = shadowActivity.getNextStartedActivity();
         assertNotNull(intent.getExtras());
-        String expected = RecipeApplicationTest.EXAMPLE_TITLE;
-        String result = intent.getExtras().getString(EXTRA_RECIPE_TITLE);
-        assertEquals(expected, result);
+        assertEquals(TestUtils.EXAMPLE_1_TITLE, intent.getExtras().getString(EXTRA_RECIPE_TITLE));
     }
 
     @Test
@@ -98,12 +96,10 @@ public class MainActivityTest {
 
     private Intent prepareIntentForNextActivity() {
         return new Intent(sut, RecipeDetailsActivity.class)
-                .putExtra(EXTRA_RECIPE_TITLE, app.getRecipeDao().getRecipe(0).getRecipeTitle())
-                .putExtra(EXTRA_RECIPE_SUBTITLE,
-                        app.getRecipeDao().getRecipe(0).getRecipeSubtitle())
+                .putExtra(EXTRA_RECIPE_TITLE, dao.getRecipe(FIRST_ITEM).getRecipeTitle())
+                .putExtra(EXTRA_RECIPE_SUBTITLE, dao.getRecipe(FIRST_ITEM).getRecipeSubtitle())
                 .putExtra(EXTRA_RECIPE_DESCRIPTION,
-                        app.getRecipeDao().getRecipe(0).getRecipeDescription())
-                .putExtra(EXTRA_RECIPE_IMAGE_URL,
-                        app.getRecipeDao().getRecipe(0).getRecipeImageUrl());
+                        dao.getRecipe(FIRST_ITEM).getRecipeDescription())
+                .putExtra(EXTRA_RECIPE_IMAGE_URL, dao.getRecipe(FIRST_ITEM).getRecipeImageUrl());
     }
 }

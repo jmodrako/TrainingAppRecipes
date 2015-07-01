@@ -1,16 +1,13 @@
 package com.recipes.android.adapters;
 
-import android.view.View;
 import android.widget.ListView;
 
 import com.recipes.BuildConfig;
-import com.recipes.R;
 import com.recipes.RecipeApplicationTest;
 import com.recipes.TestUtils;
 import com.recipes.data.models.Recipe;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
@@ -61,21 +58,14 @@ public class RecipesListAdapterTest {
         mockListView.performItemClick(mockListView, 0, 0);
         Recipe expectedRecipeAtPosition = sut.getItem(0);
         Recipe actualRecipeAtPosition = (Recipe) mockListView.getItemAtPosition(0);
-        assertEquals(expectedRecipeAtPosition, actualRecipeAtPosition); //check this
+        assertEquals(expectedRecipeAtPosition, actualRecipeAtPosition);
     }
 
-    @Ignore
-    @Test
-    public void testGetView() {
-        //ViewGroup mockGroupView = mock(ViewGroup.class);
-        View mockView = View.inflate(ShadowApplication.getInstance().getApplicationContext(),
-                R.layout.adapter_recipes_list, null);
-        RecipesListAdapter.ViewHolder viewHolder = new RecipesListAdapter.ViewHolder(mockView);
-        mockView.setTag(viewHolder);
-        //View view2 = sut.getView(0, mockView, null);
-        // assertNotNull(view2);
-    }
-
+    /**
+     * This method prepares a recipes list for tested adapter.
+     *
+     * @return prepared recipes list.
+     */
     private List<Recipe> prepareRecipesList() {
         List<Recipe> recipesList = new ArrayList<Recipe>();
         recipesList.add(TestUtils.getRecipeExample1());

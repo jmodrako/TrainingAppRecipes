@@ -20,7 +20,8 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Michal Radtke on 2015-06-30.
+ * Tests for {@link com.recipes.data.databases.RecipeDaoImpl}
+ * Created by michal.radtke@mobica.com on 2015-06-30.
  */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(application = RecipeApplicationTest.class, constants = BuildConfig.class,
@@ -28,13 +29,12 @@ import static org.junit.Assert.assertTrue;
 public class RecipeDaoImplTest {
 
     private Activity activity;
-    private RecipeApplicationTest app;
     private IRecipeDao<Recipe> dao;
 
     @Before
     public void setup() throws Exception {
         activity = Robolectric.setupActivity(Activity.class);
-        app = (RecipeApplicationTest) activity.getApplication();
+        RecipeApplicationTest app = (RecipeApplicationTest) activity.getApplication();
         dao = app.getRecipeDao();
         dao.insertRecipe(TestUtils.getRecipeExample1());
     }

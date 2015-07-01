@@ -10,10 +10,14 @@ import android.widget.Toast;
 
 import com.recipes.R;
 import com.recipes.android.fragments.MenuFragment;
+import com.recipes.android.fragments.MenuFragment.MenuInterface;
 import com.recipes.android.fragments.RecipeDescriptionFragment;
 import com.recipes.data.models.Recipe;
 
-public class MainFragmentActivity extends Activity implements MenuFragment.MenuInterface {
+/**
+ * Created by tomasz.wnuk@mobica.com on 2015-06-29.
+ */
+public class MainFragmentActivity extends Activity implements MenuInterface {
 
     public final static String RECIPE_DESCRIPTION = "com.recipe.activity.RECIPE_DESCRIPTION";
     public final static String RECIPE_TITLE = "com.recipe.activity.RECIPE_TITLE";
@@ -24,54 +28,21 @@ public class MainFragmentActivity extends Activity implements MenuFragment.MenuI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_fragment);
-
         if (isItSmallDevice()) {
             createMenuLayout(R.id.fragment_container);
-        }else{
+        } else {
             createMenuLayout(R.id.fragmentList);
             createDescriptionFragment(R.id.fragment_containerLarge, new Recipe());
         }
-
-    }
-    private void createMenuLayout(int id){
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.fade_in,R.animator.fade_out);
-
-        MenuFragment optionsFragment = new MenuFragment();
-        transaction.replace(id, optionsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     @Override
     public void onMenuSelected(Recipe recipe) {
-        if (isItSmallDevice()){
+        if (isItSmallDevice()) {
             createDescriptionFragment(R.id.fragment_container, recipe);
-        }else {
+        } else {
             createDescriptionFragment(R.id.fragment_containerLarge, recipe);
         }
-    }
-
-    private boolean isItSmallDevice(){
-        return findViewById(R.id.fragment_container) != null;
-    }
-    private void createDescriptionFragment(int id, Recipe recipe){
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.animator.fade_in,R.animator.fade_out);
-        RecipeDescriptionFragment optionsFragment = new RecipeDescriptionFragment();
-        optionsFragment.setArguments(getSendingArguments(recipe));
-        transaction.replace(id, optionsFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    private Bundle getSendingArguments(Recipe recipe){
-        Bundle result = new Bundle();
-        result.putString(RECIPE_DESCRIPTION, recipe.getRecipeDescription());
-        result.putString(RECIPE_TITLE, recipe.getRecipeTitle());
-        result.putString(RECIPE_SUBTITLE, recipe.getRecipeSubtitle());
-        result.putString(RECIPE_IMAGE_URL, recipe.getRecipeImageUrl());
-        return result;
     }
 
     @Override
@@ -103,5 +74,38 @@ public class MainFragmentActivity extends Activity implements MenuFragment.MenuI
         } else {
             finish();
         }
+    }
+
+    private void createMenuLayout(int id) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+
+        MenuFragment optionsFragment = new MenuFragment();
+        transaction.replace(id, optionsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private boolean isItSmallDevice() {
+        return findViewById(R.id.fragment_container) != null;
+    }
+
+    private void createDescriptionFragment(int id, Recipe recipe) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.animator.fade_in, R.animator.fade_out);
+        RecipeDescriptionFragment optionsFragment = new RecipeDescriptionFragment();
+        optionsFragment.setArguments(getSendingArguments(recipe));
+        transaction.replace(id, optionsFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    private Bundle getSendingArguments(Recipe recipe) {
+        Bundle result = new Bundle();
+        result.putString(RECIPE_DESCRIPTION, recipe.getRecipeDescription());
+        result.putString(RECIPE_TITLE, recipe.getRecipeTitle());
+        result.putString(RECIPE_SUBTITLE, recipe.getRecipeSubtitle());
+        result.putString(RECIPE_IMAGE_URL, recipe.getRecipeImageUrl());
+        return result;
     }
 }

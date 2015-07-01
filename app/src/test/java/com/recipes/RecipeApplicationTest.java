@@ -12,7 +12,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by Michal Radtke on 2015-06-25.
+ * This class is an application class for tests.
+ * Created by michal.radtke@mobica.com on 2015-06-25.
  */
 public class RecipeApplicationTest extends RecipeApplication {
 
@@ -26,6 +27,10 @@ public class RecipeApplicationTest extends RecipeApplication {
         when(recipeDaoLayer.recipeDao()).thenReturn(recipeDao);
     }
 
+    /**
+     * This class mocks recipe database access object interface. In tests we don not have
+     * permissions to working on real database, that we have to use list.
+     */
     private class MockDB implements IRecipeDao<Recipe> {
 
         private List<Recipe> data;

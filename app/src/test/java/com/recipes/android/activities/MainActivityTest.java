@@ -26,6 +26,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
+/**
+ * Tests for {@link com.recipes.android.activities.MainActivity}
+ * Created by michal.radtke@mobica.com on 2015-06-29.
+ */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(application = RecipeApplicationTest.class, constants = BuildConfig.class,
         emulateSdk = 21, manifest = "com/recipes/app/src/main/AndroidManifest.xml")
@@ -38,13 +42,12 @@ public class MainActivityTest {
     private static final int FIRST_ITEM = 0;
 
     private MainActivity sut;
-    private RecipeApplicationTest app;
     private IRecipeDao<Recipe> dao;
 
     @Before
     public void setup() throws Exception {
         sut = Robolectric.setupActivity(MainActivity.class);
-        app = (RecipeApplicationTest) sut.getApplication();
+        RecipeApplicationTest app = (RecipeApplicationTest) sut.getApplication();
         dao = app.getRecipeDao();
         dao.insertRecipe(TestUtils.getRecipeExample1());
     }
@@ -94,6 +97,11 @@ public class MainActivityTest {
         assertTrue((displayOptions & ActionBar.DISPLAY_SHOW_HOME) != 0);
     }
 
+    /**
+     * This method prepares extras for next activity.
+     *
+     * @return prepared intent with extras.
+     */
     private Intent prepareIntentForNextActivity() {
         return new Intent(sut, RecipeDetailsActivity.class)
                 .putExtra(EXTRA_RECIPE_TITLE, dao.getRecipe(FIRST_ITEM).getRecipeTitle())

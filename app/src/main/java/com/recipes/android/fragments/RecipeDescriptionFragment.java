@@ -1,9 +1,7 @@
 package com.recipes.android.fragments;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,7 +35,6 @@ public class RecipeDescriptionFragment extends Fragment {
     ImageView image;
 
     private Intent shareIntent;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,34 +83,17 @@ public class RecipeDescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_description,
                 container, false);
-        ButterKnife.inject(this,view);
-        setTextViewsFonts(view.getContext());
+        ButterKnife.inject(this, view);
         return view;
     }
 
-    private void updateDescription(String title,String subTitle,String description,String url){
+    private void updateDescription(String title, String subTitle, String description, String url) {
         this.title.setText(title);
         subtitle.setText(subTitle);
         this.description.setText(description);
         Picasso.with(getActivity().getBaseContext())
                 .load(url)
                 .into(image);
-    }
-    private void setTextViewsFonts(Context context) {
-        Typeface typefaceTitle =
-                Typeface.createFromAsset(context.getAssets(),
-                        "fonts/RobotoCondensed-Bold.ttf");
-        title.setTypeface(typefaceTitle);
-
-        Typeface typefaceSubtitle =
-                Typeface.createFromAsset(context.getAssets(),
-                        "fonts/RobotoCondensed-Light.ttf");
-        subtitle.setTypeface(typefaceSubtitle);
-
-        Typeface typefaceDescription =
-                Typeface.createFromAsset(context.getAssets(),
-                        "fonts/RobotoCondensed-Regular.ttf");
-        description.setTypeface(typefaceDescription);
     }
 
     private void setShareButton(String messageToShare) {

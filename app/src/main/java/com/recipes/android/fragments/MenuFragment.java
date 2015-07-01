@@ -13,15 +13,16 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.recipes.R;
+import com.recipes.RecipeApplication;
 import com.recipes.android.adapters.RecipesListAdapter;
 import com.recipes.connection.interfaces.IRecipeApi;
+import com.recipes.connection.schemas.RecipesListPojoSchema;
+import com.recipes.data.interfaces.IRecipeDao;
 import com.recipes.data.models.Recipe;
-import com.recipes.data.models.RecipesListPojoSchema;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -30,18 +31,17 @@ import retrofit.client.Response;
 public class MenuFragment extends ListFragment {
 
     private Menu optionsMenu;
-    private static final String DATA_URL = "http://192.168.56.1:5000";
-    private static final String IMAGES_URL = "http://192.168.56.1";
-    private static final String DB_NAME = "recipe_db.db";
+    private static final String DATA_URL = "http://192.168.74.1:5000";
+    private static final String IMAGES_URL = "http://192.168.74.1";
     private static final String GET_ALL_RECIPES = "";
     private static final String LOG_TAG = MenuFragment.class.getSimpleName();
     private static final long REFRESH_ICON_ACTION_DELAY = 1000;
 
-    private Realm databaseManager;
     private MenuInterface listener;
 
     private RecipesListAdapter adapter;
     private List<Recipe> recipesList;
+    private IRecipeDao<Recipe> recipeDao;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,14 +69,10 @@ public class MenuFragment extends ListFragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        databaseManager = Realm.getInstance(view.getContext(), DB_NAME);
+        recipeDao = getRecipeApplication().getRecipeDao();
         downloadDataAndFillDB();
         super.onViewCreated(view, savedInstanceState);
 
-    }
-
-    public interface MenuInterface {
-        public void onMenuSelected(Recipe recipe);
     }
 
     @Override
@@ -84,9 +80,10 @@ public class MenuFragment extends ListFragment {
         listener.onMenuSelected(recipesList.get(position));
         getListView().setItemChecked(position, true);
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        optionsMenu=menu;
+        optionsMenu = menu;
         if (optionsMenu != null) {
             optionsMenu.findItem(R.id.action_refresh).setVisible(true);
         }
@@ -103,6 +100,10 @@ public class MenuFragment extends ListFragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private RecipeApplication getRecipeApplication() {
+        return (RecipeApplication) getActivity().getApplication();
     }
 
     private void setRefreshActionButtonState(boolean doRefresh) {
@@ -128,7 +129,7 @@ public class MenuFragment extends ListFragment {
         api.getRecipes(GET_ALL_RECIPES, new Callback<RecipesListPojoSchema>() {
             @Override
             public void success(RecipesListPojoSchema recipesListPojoSchema, Response response) {
-                fillDB(recipesListPojoSchema);
+                fillDbWithDownloadedData(recipesListPojoSchema);
                 updateRecipesListView();
             }
 
@@ -139,7 +140,7 @@ public class MenuFragment extends ListFragment {
         });
     }
 
-    private void fillDB(RecipesListPojoSchema recipesListPojoSchema) {
+    private void fillDbWithDownloadedData(RecipesListPojoSchema recipesListPojoSchema) {
         Recipe recipeData;
         List<Recipe> tempRecipesList = new ArrayList<Recipe>();
         for (int i = 0; i < recipesListPojoSchema.getRecipes().size(); i++) {
@@ -157,16 +158,14 @@ public class MenuFragment extends ListFragment {
             tempRecipesList.add(i, recipeData);
         }
 
-        databaseManager.beginTransaction();
-        databaseManager.copyToRealmOrUpdate(tempRecipesList);
-        databaseManager.commitTransaction();
+        recipeDao.insertAllRecipes(tempRecipesList);
     }
 
     private void updateRecipesListView() {
-        List<Recipe> tempRecipesList = databaseManager.allObjects(Recipe.class);
+        List<Recipe> tempRecipesList = recipeDao.getAllRecipes();
         adapter.setData(tempRecipesList);
         setListAdapter(adapter);
-        recipesList=tempRecipesList;
+        recipesList = tempRecipesList;
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -175,4 +174,7 @@ public class MenuFragment extends ListFragment {
         }, REFRESH_ICON_ACTION_DELAY);
     }
 
+    public interface MenuInterface {
+        void onMenuSelected(Recipe recipe);
+    }
 }

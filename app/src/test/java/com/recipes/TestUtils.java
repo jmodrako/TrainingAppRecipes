@@ -3,7 +3,8 @@ package com.recipes;
 import com.recipes.data.models.Recipe;
 
 /**
- * Created by Michal Radtke on 2015-06-30.
+ * This is a util class for tests.
+ * Created by michal.radtke@mobica.com on 2015-06-30.
  */
 public class TestUtils {
 
@@ -17,7 +18,7 @@ public class TestUtils {
     public static final String EXAMPLE_1_DESCRIPTION = "The Fish deep fried in sunflower oil";
 
     public static final int EXAMPLE_2_ID = 1;
-    public static final String EXAMPLE_2_TITLE = "Gaspaccio";
+    public static final String EXAMPLE_2_TITLE = "Gazpacho";
     public static final String EXAMPLE_2_SUBTITLE = "Created by Misiu on 30.06.2015";
     public static final String EXAMPLE_2_IMAGE_URL = "http://img.com/Gaspaccio";
     public static final String EXAMPLE_2_DESCRIPTION = "Nice dish";

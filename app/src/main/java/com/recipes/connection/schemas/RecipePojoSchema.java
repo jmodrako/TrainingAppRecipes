@@ -1,4 +1,4 @@
-package com.recipes.data.models;
+package com.recipes.connection.schemas;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -34,9 +34,7 @@ public class RecipePojoSchema {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     *
-     * @return
-     * The description
+     * @return The description
      */
     @JsonProperty("description")
     public String getDescription() {
@@ -44,9 +42,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @param description
-     * The description
+     * @param description The description
      */
     @JsonProperty("description")
     public void setDescription(String description) {
@@ -54,9 +50,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @return
-     * The id
+     * @return The id
      */
     @JsonProperty("id")
     public Integer getId() {
@@ -64,9 +58,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @param id
-     * The id
+     * @param id The id
      */
     @JsonProperty("id")
     public void setId(Integer id) {
@@ -74,9 +66,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @return
-     * The imageUrl
+     * @return The imageUrl
      */
     @JsonProperty("imageUrl")
     public String getImageUrl() {
@@ -84,9 +74,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @param imageUrl
-     * The imageUrl
+     * @param imageUrl The imageUrl
      */
     @JsonProperty("imageUrl")
     public void setImageUrl(String imageUrl) {
@@ -94,9 +82,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @return
-     * The subtitle
+     * @return The subtitle
      */
     @JsonProperty("subtitle")
     public String getSubtitle() {
@@ -104,9 +90,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @param subtitle
-     * The subtitle
+     * @param subtitle The subtitle
      */
     @JsonProperty("subtitle")
     public void setSubtitle(String subtitle) {
@@ -114,9 +98,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @return
-     * The title
+     * @return The title
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -124,9 +106,7 @@ public class RecipePojoSchema {
     }
 
     /**
-     *
-     * @param title
-     * The title
+     * @param title The title
      */
     @JsonProperty("title")
     public void setTitle(String title) {
@@ -142,5 +122,4 @@ public class RecipePojoSchema {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

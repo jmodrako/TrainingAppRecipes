@@ -24,7 +24,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
- * Created by Michal Radtke on 2015-06-29.
+ * Tests for {@link com.recipes.android.activities.RecipeDetailsActivity}
+ * Created by michal.radtke@mobica.com on 2015-06-29.
  */
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(application = RecipeApplicationTest.class, constants = BuildConfig.class,
@@ -74,6 +75,11 @@ public class RecipeDetailsActivityTest {
         assertFalse((displayOptions & ActionBar.DISPLAY_SHOW_TITLE) != 0);
     }
 
+    /**
+     * This method prepares extras for tested activity.
+     *
+     * @return preapred intent with extras.
+     */
     private Intent prepareIntentForActivity() {
         return new Intent()
                 .putExtra(EXTRA_RECIPE_TITLE, TestUtils.EXAMPLE_1_TITLE)

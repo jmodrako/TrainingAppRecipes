@@ -16,7 +16,6 @@ import io.realm.RealmResults;
 /**
  * Created by Michal Radtke on 2015-06-24.
  */
-
 public class RecipeDaoImpl implements IRecipeDao<Recipe> {
 
     private static final String DB_NAME = "recipe_db.db";

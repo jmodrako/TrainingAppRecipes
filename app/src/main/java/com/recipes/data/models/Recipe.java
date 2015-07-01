@@ -3,6 +3,9 @@ package com.recipes.data.models;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
+/**
+ * Created by michal.radtke@mobica.com on 2015-06-29.
+ */
 public class Recipe extends RealmObject {
 
     @PrimaryKey
@@ -19,7 +22,6 @@ public class Recipe extends RealmObject {
         this.recipeDescription = recipeDescription;
         this.recipeImageUrl = recipeImageUrl;
     }
-
 
     public Recipe() {
 
@@ -64,5 +66,4 @@ public class Recipe extends RealmObject {
     public void setRecipeImageUrl(String recipeImageUrl) {
         this.recipeImageUrl = recipeImageUrl;
     }
-
 }

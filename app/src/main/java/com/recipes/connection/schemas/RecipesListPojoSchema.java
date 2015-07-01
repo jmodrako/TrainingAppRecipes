@@ -1,4 +1,4 @@
-package com.recipes.data.models;
+package com.recipes.connection.schemas;
 
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -24,9 +24,7 @@ public class RecipesListPojoSchema {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
-     *
-     * @return
-     * The recipes
+     * @return The recipes
      */
     @JsonProperty("recipes")
     public List<RecipePojoSchema> getRecipes() {
@@ -34,9 +32,7 @@ public class RecipesListPojoSchema {
     }
 
     /**
-     *
-     * @param recipes
-     * The recipes
+     * @param recipes The recipes
      */
     @JsonProperty("recipes")
     public void setRecipes(List<RecipePojoSchema> recipes) {
@@ -52,5 +48,4 @@ public class RecipesListPojoSchema {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
-
 }

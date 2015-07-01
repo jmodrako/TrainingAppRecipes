@@ -13,7 +13,8 @@
     <style name="AppTitleStyle" parent="android:TextAppearance.Material.Title">
         <item name="android:paddingLeft">5dp</item>
     </style>
-ó
+    ó
+
     <style name="TitleTextStyle" parent="android:TextAppearance.Material.Widget.TextView">
         <item name="android:fontFamily">sans-serif-condensed</item>
         <item name="android:textStyle">bold</item>

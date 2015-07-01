@@ -1,7 +1,6 @@
 package com.recipes.android.activities;
 
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +8,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -18,9 +16,9 @@ import com.recipes.R;
 import com.recipes.RecipeApplication;
 import com.recipes.android.adapters.RecipesListAdapter;
 import com.recipes.connection.interfaces.IRecipeApi;
+import com.recipes.connection.schemas.RecipesListPojoSchema;
 import com.recipes.data.interfaces.IRecipeDao;
 import com.recipes.data.models.Recipe;
-import com.recipes.data.models.RecipesListPojoSchema;
 import com.recipes.dependency_injection.interfaces.DaggerRecipesListAdapterLayer;
 import com.recipes.dependency_injection.modules.RecipesListAdapterModule;
 
@@ -35,8 +33,12 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+/**
+ * This is a main class for this app.
+ * Created by michal.radtke@mobica.com on 2015-06-29.
+ */
 //In AA: @EActivity(R.layout.activity_main)
-public class MainActivity extends ListActivity {
+public class MainActivity extends Activity {
 
     private static final String DATA_URL = "http://192.168.56.1:5000";
     private static final String IMAGES_URL = "http://192.168.56.1";
@@ -45,6 +47,7 @@ public class MainActivity extends ListActivity {
     private static final long REFRESH_ICON_ACTION_DELAY = 1000;
 
     //In AA: @ViewById(R.id.activity_main_lv_recipes_list)
+    @InjectView(R.id.activity_main_lv_recipes_list)
     ListView lvRecipesList;
 
     @InjectView(R.id.activity_main_pb_load_recipes_list)
@@ -61,10 +64,9 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
-        lvRecipesList = getListView();
+
         recipeDao = getRecipeApplication().getRecipeDao();
 
         recipesListAdapter = DaggerRecipesListAdapterLayer.builder()
@@ -73,9 +75,7 @@ public class MainActivity extends ListActivity {
         if (getActionBar() != null) {
             getActionBar().setDisplayShowHomeEnabled(true);
         }
-
-//        pbLoadRecipesList.setVisibility(View.VISIBLE);
-        setProgressBarIndeterminateVisibility(true);
+        pbLoadRecipesList.setVisibility(View.VISIBLE);
         downloadDataAndFillDB();
     }
 
@@ -160,20 +160,19 @@ public class MainActivity extends ListActivity {
         api.getRecipes(GET_ALL_RECIPES, new Callback<RecipesListPojoSchema>() {
             @Override
             public void success(RecipesListPojoSchema recipesListPojoSchema, Response response) {
-                fillDB(recipesListPojoSchema);
+                fillDbWithDownloadedData(recipesListPojoSchema);
                 updateRecipesListView();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 Log.e(LOG_TAG, error.getMessage());
-//                pbLoadRecipesList.setVisibility(View.INVISIBLE);
-                setProgressBarIndeterminateVisibility(false);
+                pbLoadRecipesList.setVisibility(View.INVISIBLE);
             }
         });
     }
 
-    private void fillDB(RecipesListPojoSchema recipesListPojoSchema) {
+    private void fillDbWithDownloadedData(RecipesListPojoSchema recipesListPojoSchema) {
         Recipe recipe;
         List<Recipe> tempRecipesList = new ArrayList<Recipe>();
         for (int i = 0; i < recipesListPojoSchema.getRecipes().size(); i++) {

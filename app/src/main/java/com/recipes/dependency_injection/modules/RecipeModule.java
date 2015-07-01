@@ -12,7 +12,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by Michal Radtke on 2015-06-25.
+ * Created by michal.radtke@mobica.com on 2015-06-25.
  */
 @Module
 public class RecipeModule {
@@ -29,7 +29,8 @@ public class RecipeModule {
         return new RecipeDaoImpl(context);
     }
 
-    @Provides Context provideContext() {
+    @Provides
+    Context provideContext() {
         return context;
     }
 }

@@ -1,7 +1,6 @@
 package com.recipes.android.adapters;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class RecipesListAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private DisplayImageOptions options;
 
-    public RecipesListAdapter(Context context){
+    public RecipesListAdapter(Context context) {
         this.context = context;
 
         options = new DisplayImageOptions.Builder()
@@ -45,7 +44,7 @@ public class RecipesListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         ViewHolder viewHolder;
-        if(view != null){
+        if (view != null) {
             viewHolder = (ViewHolder) view.getTag();
         } else {
             view = inflater.inflate(R.layout.adapter_recipes_list, parent, false);
@@ -55,8 +54,9 @@ public class RecipesListAdapter extends BaseAdapter {
 
         viewHolder.tvTitle.setText(recipesList.get(position).getRecipeTitle());
         viewHolder.tvSubtitle.setText(recipesList.get(position).getRecipeSubtitle());
-        ImageLoader.getInstance().displayImage(recipesList.get(position).getRecipeImageUrl(), viewHolder.ivThumbnail,
-                options);
+        ImageLoader.getInstance()
+                .displayImage(recipesList.get(position).getRecipeImageUrl(), viewHolder.ivThumbnail,
+                        options);
 
         return view;
     }
@@ -64,7 +64,7 @@ public class RecipesListAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         int result = 0;
-        if(recipesList != null){
+        if (recipesList != null) {
             result = recipesList.size();
         }
         return result;
@@ -73,7 +73,7 @@ public class RecipesListAdapter extends BaseAdapter {
     @Override
     public Recipe getItem(int position) {
         Recipe result = null;
-        if(recipesList != null){
+        if (recipesList != null) {
             result = recipesList.get(position);
         }
         return result;
@@ -84,7 +84,7 @@ public class RecipesListAdapter extends BaseAdapter {
         return position;
     }
 
-    public void setData(List<Recipe> recipesList){
+    public void setData(List<Recipe> recipesList) {
         this.recipesList = recipesList;
     }
 

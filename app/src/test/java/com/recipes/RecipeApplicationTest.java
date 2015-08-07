@@ -1,8 +1,8 @@
 package com.recipes;
 
 import com.recipes.data.interfaces.IRecipeDao;
-import com.recipes.data.models.Recipe;
-import com.recipes.dependency_injection.interfaces.RecipeDaoLayer;
+import com.recipes.data.model.Recipe;
+import com.recipes.internal.interfaces.RecipeDaoLayer;
 import com.recipes.util.Parameters;
 
 import java.util.ArrayList;
@@ -17,73 +17,64 @@ import static org.mockito.Mockito.when;
  */
 public class RecipeApplicationTest extends RecipeApplication {
 
-    IRecipeDao recipeDao;
+	@Override
+	protected void prepareDependencies() {
+		recipeDao = new MockDB();
+	}
 
-    @Override
-    protected void prepareDependencies() {
-        recipeDaoLayer = mock(RecipeDaoLayer.class);
-        recipeDao = new MockDB();
+	/**
+	 * This class mocks recipe database access object interface. In tests we don not have
+	 * permissions to working on real database, that we have to use list.
+	 */
+	private class MockDB implements IRecipeDao<Recipe> {
 
-        when(recipeDaoLayer.recipeDao()).thenReturn(recipeDao);
-    }
+		private List<Recipe> data;
 
-    /**
-     * This class mocks recipe database access object interface. In tests we don not have
-     * permissions to working on real database, that we have to use list.
-     */
-    private class MockDB implements IRecipeDao<Recipe> {
+		public MockDB() {
+			data = new ArrayList<Recipe>();
+		}
 
-        private List<Recipe> data;
+		@Override
+		public List<Recipe> getAllRecipes() {
+			return data;
+		}
 
-        public MockDB() {
-            data = new ArrayList<Recipe>();
-        }
+		@Override
+		public Recipe getRecipe(int recipeId) {
+			for (Recipe recipe : data) {
+				if (recipe.getRecipeId() == recipeId) {
+					return recipe;
+				}
+			}
 
-        @Override
-        public List<Recipe> getAllRecipes() {
-            return data;
-        }
+			throw new IllegalArgumentException("No recipe in storage with given id " + recipeId);
+		}
 
-        @Override
-        public Recipe getRecipe(int recipeId) {
-            for (Recipe recipe : data) {
-                if (recipe.getRecipeId() == recipeId) {
-                    return recipe;
-                }
-            }
+		@Override
+		public void updateRecipe(Recipe recipe) {
+			Parameters.checkNotNull(recipe);
+			data.set(recipe.getRecipeId(), recipe);
+		}
 
-            throw new IllegalArgumentException("Bad ID!");
-        }
+		@Override
+		public void deleteRecipe(int recipeId) {
+			data.remove(recipeId);
+		}
 
-        @Override
-        public void updateRecipe(Recipe recipe) {
-            Parameters.checkNotNull(recipe);
-            data.set(recipe.getRecipeId(), recipe);
+		@Override
+		public void insertRecipe(Recipe recipe) {
+			Parameters.checkNotNull(recipe);
+			data.add(recipe.getRecipeId(), recipe);
+		}
 
-            throw new IllegalArgumentException("Recipe doesn't exist!");
-        }
+		@Override
+		public void insertAllRecipes(List<Recipe> recipes) {
 
-        @Override
-        public void deleteRecipe(int recipeId) {
-            data.remove(recipeId);
+		}
 
-            throw new IllegalArgumentException("Bad ID!");
-        }
-
-        @Override
-        public void insertRecipe(Recipe recipe) {
-            Parameters.checkNotNull(recipe);
-            data.add(recipe.getRecipeId(), recipe);
-        }
-
-        @Override
-        public void insertAllRecipes(List<Recipe> recipes) {
-
-        }
-
-        @Override
-        public long getCount() {
-            return data.size();
-        }
-    }
+		@Override
+		public long getCount() {
+			return data.size();
+		}
+	}
 }

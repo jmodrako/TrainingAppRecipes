@@ -1,6 +1,6 @@
 package com.recipes;
 
-import com.recipes.data.models.Recipe;
+import com.recipes.data.model.Recipe;
 
 /**
  * This is a util class for tests.

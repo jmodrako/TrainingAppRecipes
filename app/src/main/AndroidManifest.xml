@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:name=".RecipeApplication">
         <activity
-            android:name=".android.activities.MainActivity"
+            android:name=".android.activity.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -19,12 +19,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".android.activities.RecipeDetailsActivity"
+            android:name=".android.activity.RecipeDetailsActivity"
             android:label="@string/title_activity_recipe_details"
-            android:parentActivityName=".android.activities.MainActivity">
+            android:parentActivityName=".android.activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".android.activities.MainActivity"/>
+                android:value=".android.activity.MainActivity"/>
         </activity>
         <!--activity
             android:name=".android.activities.MainFragmentActivity"

@@ -1,10 +1,10 @@
 package com.recipes.util;
 
 /**
- * Created by michal.radtke@mobica.com on 2015-06-30.
+ * Fail early.
  */
 public class Parameters {
-    public static void checkNotNull(Object o) {
-        if (o == null) throw new IllegalArgumentException("Object can't be null!");
-    }
+	public static void checkNotNull(Object o) {
+		if (o == null) throw new IllegalArgumentException("Object can't be null!");
+	}
 }

@@ -69,6 +69,14 @@
                 android:layout_height="wrap_content"
                 android:text="Argb\nEvaluator"
                 android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/animationsXmlDefinedAnimator"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XML\nDefined"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.recipes.android.fragment;
 
 import com.recipes.R;
 
+import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -61,8 +62,8 @@ public class AnimationsFragment extends Fragment {
 			@Override public void onAnimationUpdate(ValueAnimator animation) {
 				final Drawable ballDrawable = ballView.getBackground();
 				// Drawable.mutate()
-				// final Drawable wrappedDrawable = DrawableCompat.wrap(ballDrawable).mutate();
-				final Drawable wrappedDrawable = DrawableCompat.wrap(ballDrawable);
+				final Drawable wrappedDrawable = DrawableCompat.wrap(ballDrawable).mutate();
+				// final Drawable wrappedDrawable = DrawableCompat.wrap(ballDrawable);
 				DrawableCompat.setTint(wrappedDrawable, (Integer) animation.getAnimatedValue());
 			}
 		});
@@ -139,5 +140,13 @@ public class AnimationsFragment extends Fragment {
 		ballView.clearAnimation();
 		ballView.animate().translationY(-300).
 				setInterpolator(new BounceInterpolator()).setDuration(1300).start();
+	}
+
+	@OnClick(R.id.animationsXmlDefinedAnimator)
+	public void xmlDefinedAnimator(final View view) {
+		AnimatorSet anim = (AnimatorSet) AnimatorInflater.
+				loadAnimator(getActivity(), R.animator.ball_animation);
+		anim.setTarget(ballView);
+		anim.start();
 	}
 }

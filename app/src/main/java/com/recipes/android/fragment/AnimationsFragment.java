@@ -9,6 +9,7 @@ import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +37,7 @@ public class AnimationsFragment extends Fragment {
 
 	@InjectView(R.id.animationsBall) View ballView;
 	@InjectView(R.id.animationsSecondBall) View secondBallView;
+	@InjectView(R.id.animationsCenterTransition) View centerView;
 
 	@Nullable @Override
 	public View onCreateView(
@@ -148,5 +150,12 @@ public class AnimationsFragment extends Fragment {
 				loadAnimator(getActivity(), R.animator.ball_animation);
 		anim.setTarget(ballView);
 		anim.start();
+	}
+
+	@OnClick(R.id.animationsTransitionDrawable)
+	public void transitionDrawable(final View view) {
+		centerView.setVisibility(View.VISIBLE);
+		TransitionDrawable td = (TransitionDrawable) centerView.getBackground();
+		td.startTransition(450);
 	}
 }

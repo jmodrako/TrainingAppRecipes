@@ -77,6 +77,14 @@
                 android:layout_height="wrap_content"
                 android:text="XML\nDefined"
                 android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/animationsTransitionDrawable"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Transition\nDrawable"
+                android:textColor="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -104,4 +112,11 @@
         android:textSize="44dp"
         android:textStyle="bold"/>
 
+    <View
+        android:id="@+id/animationsCenterTransition"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@drawable/transition_drawable"
+        android:visibility="invisible"/>
 </FrameLayout>

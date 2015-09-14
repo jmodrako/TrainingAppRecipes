@@ -8,4 +8,5 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_share">Share</string>
     <string name="settings_clicked_message">Settings clicked!</string>
+    <string name="action_animations">Animations</string>
 </resources>

@@ -3,13 +3,18 @@
       tools:context="com.recipes.android.activity.MainFragmentActivity">
     <item
         android:id="@+id/action_settings"
-        android:title="@string/action_settings"
         android:orderInCategory="100"
-        android:showAsAction="never"/>
+        android:showAsAction="never"
+        android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/action_animations"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/action_animations"/>
     <item
         android:id="@+id/action_refresh"
         android:icon="@mipmap/ic_action_refresh"
-        android:title="@string/action_refresh"
         android:orderInCategory="200"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="ifRoom"
+        android:title="@string/action_refresh"/>
 </menu>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:orientation="vertical">
+
+    <LinearLayout
+        style="?android:buttonBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/animationsValueAnimator"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Value\nAnimator"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/animationsObjectAnimator"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Object\nAnimator"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/animationsViewChainAnimator"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View\nChain"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/animationsLayoutParamsAnimator"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Layout Params\nAnimator"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/animationsAnimatorSet"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Animator\nSet"
+                android:textColor="@android:color/white"/>
+
+            <Button
+                android:id="@+id/animationsArgbAnimator"
+                style="?android:buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Argb\nEvaluator"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/animationsBall"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom|left"
+        android:layout_marginLeft="16dp"
+        android:background="@drawable/ball_background"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="44dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/animationsSecondBall"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/ball_background"
+        android:gravity="center"
+        android:text="2"
+        android:textSize="44dp"
+        android:textStyle="bold"/>
+
+</FrameLayout>

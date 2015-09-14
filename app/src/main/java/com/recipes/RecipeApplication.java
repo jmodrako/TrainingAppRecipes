@@ -12,7 +12,7 @@ import com.recipes.internal.module.RecipeModule;
 
 public class RecipeApplication extends Application {
 
-	protected IRecipeDao recipeDao;
+	protected IRecipeDao<Recipe> recipeDao;
 
 	@Override
 	public void onCreate() {

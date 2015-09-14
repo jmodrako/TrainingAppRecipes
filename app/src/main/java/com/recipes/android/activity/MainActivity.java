@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,8 +41,8 @@ import retrofit.client.Response;
 //In AA: @EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
 
-	private static final String DATA_URL = "http://192.168.56.1:5000";
-	private static final String IMAGES_URL = "http://192.168.56.1";
+	private static final String DATA_URL = "http://192.168.1.11:5000";
+	private static final String IMAGES_URL = "http://192.168.1.11:5000";
 	private static final String GET_ALL_RECIPES = "";
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 	private static final long REFRESH_ICON_ACTION_DELAY = 1000;
@@ -80,7 +81,8 @@ public class MainActivity extends Activity {
 	}
 
 	//In AA: @ItemClicked
-	@OnItemClick(R.id.activity_main_lv_recipes_list) void lvRecipesList(int position) {
+	@OnItemClick(R.id.activity_main_lv_recipes_list)
+	void lvRecipesList(int position, View clickedView) {
 		/*In AA: RecipeDetailsActivity_.intent(this)
 				.extraRecipeDescription(recipe.getRecipeDescription())
                 .extraRecipeTitle(recipe.getRecipeTitle())
@@ -88,8 +90,7 @@ public class MainActivity extends Activity {
                 .extraRecipeImageUrl(recipe.getRecipeImageUrl())
                 .start();*/
 		Recipe selectedRecipe = recipeDao.getRecipe(position);
-		startActivity(prepareIntentForNextActivity(selectedRecipe));
-		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+		startDetailsActivity(selectedRecipe, clickedView);
 	}
 
 	@Override
@@ -102,6 +103,9 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.action_animations:
+				startActivity(new Intent(this, AnimationsActivity.class));
+				return true;
 			case R.id.action_settings:
 				Toast.makeText(getApplicationContext(),
 						getString(R.string.settings_clicked_message), Toast.LENGTH_SHORT).show();
@@ -119,21 +123,23 @@ public class MainActivity extends Activity {
 		return (RecipeApplication) getApplication();
 	}
 
-	private Intent prepareIntentForNextActivity(Recipe selectedRecipe) {
-		Intent recipeDetailIntent = new Intent(this, RecipeDetailsActivity.class);
-		recipeDetailIntent.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_DESCRIPTION,
+	private void startDetailsActivity(Recipe selectedRecipe, View clickedView) {
+		Intent result = new Intent(this, RecipeDetailsActivity.class);
+		result.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_DESCRIPTION,
 				selectedRecipe.getRecipeDescription());
-		recipeDetailIntent
-				.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_TITLE,
-						selectedRecipe.getRecipeTitle());
-		recipeDetailIntent
-				.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_SUBTITLE,
-						selectedRecipe.getRecipeSubtitle());
-		recipeDetailIntent
-				.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_IMAGE_URL,
-						selectedRecipe.getRecipeImageUrl());
+		result.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_TITLE,
+				selectedRecipe.getRecipeTitle());
+		result.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_SUBTITLE,
+				selectedRecipe.getRecipeSubtitle());
+		result.putExtra(RecipeDetailsActivity.EXTRA_RECIPE_IMAGE_URL,
+				selectedRecipe.getRecipeImageUrl());
 
-		return recipeDetailIntent;
+		//https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
+		ActivityOptionsCompat options = ActivityOptionsCompat.
+				makeSceneTransitionAnimation(this,
+						clickedView.findViewById(R.id.adapter_recipes_list_iv_thumbnail),
+						"image");
+		startActivity(result, options.toBundle());
 	}
 
 	private void setRefreshActionButtonState(boolean doRefresh) {

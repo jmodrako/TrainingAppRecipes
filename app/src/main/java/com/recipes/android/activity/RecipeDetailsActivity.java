@@ -90,6 +90,7 @@ public class RecipeDetailsActivity extends Activity {
 				return true;
 			case android.R.id.home:
 				onBackPressed();
+				return true;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -98,7 +99,7 @@ public class RecipeDetailsActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+		overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 	}
 
 	private void setShareButton(String messageToShare) {

@@ -1,5 +1,17 @@
 package com.recipes.android.activity;
 
+import com.recipes.R;
+import com.recipes.RecipeApplication;
+import com.recipes.android.adapter.RecipesListAdapter;
+import com.recipes.connection.Connection;
+import com.recipes.connection.interfaces.IRecipeApi;
+import com.recipes.connection.model.RecipesList;
+import com.recipes.data.Settings;
+import com.recipes.data.interfaces.IRecipeDao;
+import com.recipes.data.model.Recipe;
+import com.recipes.internal.interfaces.DaggerRecipesListAdapterLayer;
+import com.recipes.internal.module.RecipesListAdapterModule;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,16 +25,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.recipes.R;
-import com.recipes.RecipeApplication;
-import com.recipes.android.adapter.RecipesListAdapter;
-import com.recipes.connection.interfaces.IRecipeApi;
-import com.recipes.connection.model.RecipesList;
-import com.recipes.data.interfaces.IRecipeDao;
-import com.recipes.data.model.Recipe;
-import com.recipes.internal.interfaces.DaggerRecipesListAdapterLayer;
-import com.recipes.internal.module.RecipesListAdapterModule;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,6 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -41,8 +42,6 @@ import retrofit.client.Response;
 //In AA: @EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
 
-	private static final String DATA_URL = "http://192.168.1.11:5000";
-	private static final String IMAGES_URL = "http://192.168.1.11:5000";
 	private static final String GET_ALL_RECIPES = "";
 	private static final String LOG_TAG = MainActivity.class.getSimpleName();
 	private static final long REFRESH_ICON_ACTION_DELAY = 1000;
@@ -107,8 +106,7 @@ public class MainActivity extends Activity {
 				startActivity(new Intent(this, AnimationsActivity.class));
 				return true;
 			case R.id.action_settings:
-				Toast.makeText(getApplicationContext(),
-						getString(R.string.settings_clicked_message), Toast.LENGTH_SHORT).show();
+				startActivity(new Intent(this, SettingsActivity.class));
 				return true;
 			case R.id.action_refresh:
 				setRefreshActionButtonState(true);
@@ -156,11 +154,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void downloadDataAndFillDB() {
-		RestAdapter restAdapter = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.FULL)
-				.setEndpoint(DATA_URL)
-				.build();
-
-		IRecipeApi api = restAdapter.create(IRecipeApi.class);
+		IRecipeApi api = Connection.createApi(this);
 
 		api.getRecipes(GET_ALL_RECIPES, new Callback<RecipesList>() {
 			@Override
@@ -186,8 +180,8 @@ public class MainActivity extends Activity {
 			recipe.setRecipeTitle(recipesList.getRecipes().get(i).getTitle());
 			recipe.setRecipeDescription(recipesList.getRecipes().get(i).getDescription());
 			recipe.setRecipeSubtitle(recipesList.getRecipes().get(i).getSubtitle());
-			recipe.setRecipeImageUrl(
-					IMAGES_URL + recipesList.getRecipes().get(i).getImageUrl());
+			recipe.setRecipeImageUrl(Settings.getEndpointAddress(this) +
+					recipesList.getRecipes().get(i).getImageUrl());
 			tempRecipesList.add(i, recipe);
 		}
 

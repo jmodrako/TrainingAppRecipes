@@ -27,8 +27,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".android.activity.MainActivity"/>
         </activity>
-        <activity
-            android:name=".android.activity.AnimationsActivity"/>
+        <activity android:name=".android.activity.AnimationsActivity"/>
+        <activity android:name=".android.activity.SettingsActivity"/>
         <!--activity
             android:name=".android.activities.MainFragmentActivity"
             android:label="@string/title_activity_main_fragment">

@@ -1,5 +1,15 @@
 package com.recipes.android.fragment;
 
+import com.recipes.R;
+import com.recipes.RecipeApplication;
+import com.recipes.android.adapter.RecipesListAdapter;
+import com.recipes.connection.Connection;
+import com.recipes.connection.interfaces.IRecipeApi;
+import com.recipes.connection.model.RecipesList;
+import com.recipes.data.Settings;
+import com.recipes.data.interfaces.IRecipeDao;
+import com.recipes.data.model.Recipe;
+
 import android.app.Activity;
 import android.app.ListFragment;
 import android.os.Bundle;
@@ -12,26 +22,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.recipes.R;
-import com.recipes.RecipeApplication;
-import com.recipes.android.adapter.RecipesListAdapter;
-import com.recipes.connection.interfaces.IRecipeApi;
-import com.recipes.connection.model.RecipesList;
-import com.recipes.data.interfaces.IRecipeDao;
-import com.recipes.data.model.Recipe;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MenuFragment extends ListFragment {
-
-	private static final String DATA_URL = "http://192.168.74.1:5000";
-	private static final String IMAGES_URL = "http://192.168.74.1";
 
 	private static final String GET_ALL_RECIPES = "";
 	private static final String LOG_TAG = MenuFragment.class.getSimpleName();
@@ -121,11 +119,7 @@ public class MenuFragment extends ListFragment {
 	}
 
 	private void downloadDataAndFillDB() {
-		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setLogLevel(RestAdapter.LogLevel.FULL).setEndpoint(DATA_URL)
-				.build();
-
-		IRecipeApi api = restAdapter.create(IRecipeApi.class);
+		IRecipeApi api = Connection.createApi(getActivity());
 
 		api.getRecipes(GET_ALL_RECIPES, new Callback<RecipesList>() {
 			@Override
@@ -154,7 +148,7 @@ public class MenuFragment extends ListFragment {
 					.get(i).getDescription());
 			recipeData.setRecipeSubtitle(recipesList.getRecipes()
 					.get(i).getSubtitle());
-			recipeData.setRecipeImageUrl(IMAGES_URL
+			recipeData.setRecipeImageUrl(Settings.getEndpointAddress(getActivity())
 					+ recipesList.getRecipes().get(i).getImageUrl());
 			tempRecipesList.add(i, recipeData);
 		}

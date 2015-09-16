@@ -1,5 +1,6 @@
 package com.recipes.android.activity;
 
+import com.recipes.BuildConfig;
 import com.recipes.R;
 import com.recipes.RecipeApplication;
 import com.recipes.android.adapter.RecipesListAdapter;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class MainActivity extends Activity {
 	//In AA: @ViewById(R.id.activity_main_lv_recipes_list)
 	@InjectView(R.id.activity_main_lv_recipes_list) ListView lvRecipesList;
 	@InjectView(R.id.activity_main_pb_load_recipes_list) ProgressBar pbLoadRecipesList;
+	@InjectView(R.id.testLabel) TextView testLabel;
 
 	//In AA: @Bean
 	private RecipesListAdapter recipesListAdapter;
@@ -64,6 +67,8 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		ButterKnife.inject(this);
+
+		testLabel.setText(BuildConfig.TEST_LABEL);
 
 		recipeDao = getRecipeApplication().getRecipeDao();
 

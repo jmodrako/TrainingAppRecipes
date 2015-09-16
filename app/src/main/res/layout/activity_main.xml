@@ -5,10 +5,22 @@
                 android:background="@color/white"
                 tools:context="com.recipes.views.MenuActivity">
 
+    <TextView
+        android:id="@+id/testLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="22sp"
+        tools:text="TEST_LABEL"/>
+
     <ListView
         android:id="@+id/activity_main_lv_recipes_list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"/>
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/testLabel"/>
 
     <ProgressBar
         android:id="@+id/activity_main_pb_load_recipes_list"

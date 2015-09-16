@@ -1,6 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
 
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yy.MM.dd')
+    return formattedDate
+}
+
+def getBranchName() {
+    def branch = "git rev-parse --abbrev-ref HEAD".execute().text.trim()
+    return branch
+}
+
+def branchName = getBranchName()
+
 android {
     compileSdkVersion 23
     buildToolsVersion "21.1.2"
@@ -13,6 +26,16 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs {
+        debug {
+            storeFile rootProject.file('debug.keystore')
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
         exclude 'META-INF/NOTICE'
@@ -23,11 +46,35 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "TEST_LABEL", "\"RELEASE buildType!\""
+        }
+
+        mobicaRelease {
+            debuggable true
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "TEST_LABEL", "\"MOBICA BYDGOSZCZ buildType!\""
+        }
+
+        internalRelease {
+            debuggable true
+            signingConfig signingConfigs.debug
+            buildConfigField "String", "TEST_LABEL", "\"INTERNAL App buildType!\""
         }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    output.outputFile.name.replace("${output.outputFile.name}", "${getDate()}" +
+                            "._TEST_v${variant.versionCode}_${variant.name}_${branchName}" +
+                            ".apk"))
+        }
     }
 }
 

@@ -117,6 +117,5 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:background="@drawable/transition_drawable"
-        android:visibility="invisible"/>
+        android:background="@drawable/transition_drawable"/>
 </FrameLayout>

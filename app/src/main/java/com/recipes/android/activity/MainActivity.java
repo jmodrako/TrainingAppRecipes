@@ -133,11 +133,13 @@ public class MainActivity extends Activity {
 				selectedRecipe.getRecipeImageUrl());
 
 		//https://github.com/codepath/android_guides/wiki/Shared-Element-Activity-Transition
-		ActivityOptionsCompat options = ActivityOptionsCompat.
-				makeSceneTransitionAnimation(this,
-						clickedView.findViewById(R.id.adapter_recipes_list_iv_thumbnail),
-						"image");
-		startActivity(result, options.toBundle());
+//		ActivityOptionsCompat options = ActivityOptionsCompat.
+//				makeSceneTransitionAnimation(
+//						this, clickedView.findViewById(R.id.adapter_recipes_list_iv_thumbnail), "image");
+
+//		startActivity(result, options.toBundle());
+		startActivity(result);
+		overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 	}
 
 	private void setRefreshActionButtonState(boolean doRefresh) {

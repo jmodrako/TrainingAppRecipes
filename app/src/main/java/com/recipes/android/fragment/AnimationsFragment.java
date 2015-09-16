@@ -2,6 +2,7 @@ package com.recipes.android.fragment;
 
 import com.recipes.R;
 
+import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +72,7 @@ public class AnimationsFragment extends Fragment {
 			}
 		});
 		anim.setDuration(1500);
+		anim.setInterpolator(new BounceInterpolator());
 		anim.start();
 	}
 
@@ -87,9 +90,9 @@ public class AnimationsFragment extends Fragment {
 				View.ROTATION.getName(), 0f, 90f, 0f);
 
 		final AnimatorSet as = new AnimatorSet();
-		as.playTogether(translationXAnim, translationYAnim);
+		as.playSequentially(translationXAnim, translationYAnim);
 		as.playSequentially(rotationAnim);
-		as.setInterpolator(new AnticipateOvershootInterpolator(1.8f, 0.9f));
+		as.setInterpolator(new AnticipateOvershootInterpolator(2.8f, 0.9f));
 		as.setDuration(2300);
 		as.start();
 	}
@@ -115,10 +118,12 @@ public class AnimationsFragment extends Fragment {
 	@OnClick(R.id.animationsValueAnimator)
 	public void valueAnimator(final View view) {
 		ballView.clearAnimation();
+
 		final ValueAnimator va = ValueAnimator.ofInt(0, -300, 0);
 		va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 			@Override public void onAnimationUpdate(@NonNull ValueAnimator animation) {
-				final int currentValue = (Integer) animation.getAnimatedValue();
+				final int currentValue =
+						(Integer) animation.getAnimatedValue();
 				ballView.setTranslationY(currentValue);
 			}
 		});
@@ -132,7 +137,8 @@ public class AnimationsFragment extends Fragment {
 		ballView.clearAnimation();
 		final ObjectAnimator va = ObjectAnimator.ofFloat(ballView,
 				View.TRANSLATION_Y.getName(), 0f, -300f, 0f);
-		va.setInterpolator(new BounceInterpolator());
+		va.setInterpolator(
+				new AnticipateOvershootInterpolator(1.6f,1.2f));
 		va.setDuration(1300);
 		va.start();
 	}
@@ -140,8 +146,28 @@ public class AnimationsFragment extends Fragment {
 	@OnClick(R.id.animationsViewChainAnimator)
 	public void viewChainAnimator(final View view) {
 		ballView.clearAnimation();
+
 		ballView.animate().translationY(-300).
-				setInterpolator(new BounceInterpolator()).setDuration(1300).start();
+				setInterpolator(new FastOutLinearInInterpolator()).
+				setListener(new Animator.AnimatorListener() {
+					@Override public void onAnimationStart(Animator animation) {
+
+					}
+
+					@Override public void onAnimationEnd(Animator animation) {
+						ballView.animate()
+								.translationY(0)
+								.setDuration(1300).start();
+					}
+
+					@Override public void onAnimationCancel(Animator animation) {
+
+					}
+
+					@Override public void onAnimationRepeat(Animator animation) {
+
+					}
+				}).setDuration(1300).start();
 	}
 
 	@OnClick(R.id.animationsXmlDefinedAnimator)
@@ -154,7 +180,6 @@ public class AnimationsFragment extends Fragment {
 
 	@OnClick(R.id.animationsTransitionDrawable)
 	public void transitionDrawable(final View view) {
-		centerView.setVisibility(View.VISIBLE);
 		TransitionDrawable td = (TransitionDrawable) centerView.getBackground();
 		td.startTransition(450);
 	}

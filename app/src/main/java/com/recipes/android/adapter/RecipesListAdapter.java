@@ -41,6 +41,7 @@ public class RecipesListAdapter extends BaseAdapter {
 
 	@Override public View getView(int position, View view, @NonNull ViewGroup parent) {
 		ViewHolder viewHolder;
+
 		if (view != null) {
 			viewHolder = (ViewHolder) view.getTag();
 		} else {

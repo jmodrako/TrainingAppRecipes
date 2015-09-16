@@ -1,6 +1,7 @@
 package com.recipes.android.activity;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -92,6 +93,9 @@ public class RecipeDetailsActivity extends Activity {
 				onBackPressed();
 				return true;
 			default:
+				FragmentTransaction tr = null;
+
+
 				return super.onOptionsItemSelected(item);
 		}
 	}
